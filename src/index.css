@@ -1,0 +1,74 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', 'Noto Sans Oriya', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-display: 'Outfit', 'Noto Sans Oriya', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Noto Sans Oriya', monospace;
+  }
+
+  html, body {
+    font-family: var(--font-sans);
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+/* Custom animations for game interactions */
+@keyframes pop-in {
+  0% { transform: scale(0.6) rotate(-6deg); opacity: 0; }
+  70% { transform: scale(1.06) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.35); }
+  50% { box-shadow: 0 0 28px rgba(99, 102, 241, 0.75); }
+}
+
+@keyframes float-up {
+  0% { transform: translateY(0) scale(0.8); opacity: 1; }
+  100% { transform: translateY(-95px) scale(1.3); opacity: 0; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-pop-in {
+  animation: pop-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+.animate-float-up {
+  animation: float-up 1.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom subtle scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.3);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 9999px;
+}

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://imsbg.github.io/bingo/sitemap.xml
+Sitemap: https://desibingo.netlify.app/sitemap.xml

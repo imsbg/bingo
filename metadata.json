@@ -1,0 +1,6 @@
+{
+  "name": "Odia Bingo (ବିଙ୍ଗୋ) – WebRTC Multiplayer & Solo Game",
+  "description": "Play the popular Indian 1 to 25 Bingo Game (ବିଙ୍ଗୋ) online for free! Create WebRTC multiplayer rooms (SBXXXX), enable Smart Play, watch live, or play vs AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

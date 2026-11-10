@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#4F3A9A"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ବିଙ୍ଗୋ | Bingo</title>
+    <meta name="description" content="Play the classic 1-25 Bingo game online with friends! Create a private room, challenge players in real-time multiplayer, and switch between Odia (ଓଡ଼ିଆ) and English. No download required. Play now!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS STYLES (Unchanged) --- */
+        :root {
+            --primary-bg: #4F3A9A;
+            --secondary-bg: #3D2C79;
+            --input-bg: #6C55B5;
+            --primary-btn: #1FE4A1;
+            --secondary-btn: #3D8E8E;
+            --accent-yellow: #FFC700;
+            --text-light: #FFFFFF;
+            --text-dark: #333;
+            --danger-red: #e74c3c;
+            --light-grey: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 16px; }
+        body {
+            font-family: 'Poppins', 'Noto Sans Oriya', sans-serif;
+            background-color: #4F3A9A; display: flex;
+            justify-content: center; align-items: center;
+            min-height: 100vh; padding: 15px;
+        }
+
+        .app-container {
+            width: 100%; max-width: 375px; height: 812px;
+            max-height: 100vh;
+            position: relative; overflow: hidden;
+            background: var(--primary-bg); border-radius: 40px;
+            transition: filter 0.3s ease-in-out;
+        }
+        .app-container.blurred {
+            filter: blur(5px);
+            pointer-events: none;
+        }
+
+        .card {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; background: var(--primary-bg);
+            padding: 20px 30px; display: none; flex-direction: column;
+            transition: opacity 0.3s ease;
+        }
+        .card.active { display: flex; }
+
+        .card-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; color: var(--text-light); flex-shrink: 0;
+        }
+        .icon, .back-btn svg, .menu-icon svg { width: 28px; height: 28px; fill: var(--text-light); }
+        .lang-icon {
+            width: 90px; height: 40px; background: var(--secondary-bg);
+            border-radius: 10px; display: flex; justify-content: center;
+            align-items: center; font-weight: bold; font-size: 20px;
+            cursor: pointer; user-select: none;
+        }
+        .lang-icon[data-lang="or"]::before { content: 'English'; }
+        .lang-icon[data-lang="en"]::before { content: 'ଓଡ଼ିଆ'; }
+
+        .card-body { text-align: center; flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
+        h1, h2 { color: var(--text-light); font-weight: 700; margin-bottom: 20px; }
+        input[type="text"], input[type="password"], input[type="number"] {
+            width: 100%; background: var(--input-bg); border: none;
+            border-radius: 15px; padding: 18px 20px; font-size: 16px;
+            color: var(--text-light); margin-bottom: 20px; font-family: 'Poppins', sans-serif;
+        }
+        input::placeholder { color: rgba(255, 255, 255, 0.7); }
+        button {
+            width: 100%; padding: 18px 20px; border: none; border-radius: 15px;
+            font-size: 18px; font-weight: 600; cursor: pointer;
+            font-family: 'Poppins', sans-serif; margin-bottom: 15px;
+            transition: transform 0.1s ease;
+        }
+        button:active { transform: scale(0.98); }
+        button:disabled { background-color: #888 !important; color: #ccc !important; cursor: not-allowed; }
+
+        .btn-primary { background: var(--primary-btn); color: var(--text-dark); }
+        .btn-secondary { background: var(--secondary-btn); color: var(--text-light); }
+        #done-setup-btn { background: var(--secondary-bg); color: var(--text-light); margin-top: auto; }
+        
+        .back-btn { background: none; border: none; width: auto; padding: 0; margin: 0; cursor: pointer; }
+        
+        #room-id-container, #lobby-room-id-display { color: var(--text-light); font-size: 20px; margin: 20px 0; }
+        #room-id-container span, #lobby-room-id-display span { color: var(--accent-yellow); font-weight: bold; }
+        
+        .join-id-wrapper { display: flex; align-items: center; margin-top: 20px; margin-bottom: 20px; }
+        .join-id-prefix { padding: 18px 20px; background: var(--input-bg); color: var(--accent-yellow); font-weight: bold; border-top-left-radius: 15px; border-bottom-left-radius: 15px; }
+        #join-room-id-number-input { border-top-left-radius: 0; border-bottom-left-radius: 0; margin-bottom: 0; }
+
+        #player-list { margin: 20px 0; text-align: left; color: var(--text-light); }
+        .player-item { display: flex; align-items: center; font-size: 24px; font-weight: 600; margin-bottom: 20px; }
+        .player-item .status-icon { margin-right: 15px; width: 32px; height: 32px; fill: var(--primary-btn); }
+        .player-item .status-icon.not-ready { fill: var(--danger-red); }
+        .player-item .kick-btn { margin-left: auto; width: auto; padding: 5px; background: none; cursor: pointer; }
+        .player-item .kick-btn .icon { fill: var(--danger-red); }
+        
+        .admin-only { display: none !important; }
+        .admin-only.visible { display: block !important; }
+
+        .setup-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        .setup-grid input {
+            aspect-ratio: 1 / 1; width: 100%; height: auto; padding: 0;
+            text-align: center; font-size: 18px; font-weight: 600;
+            background: var(--light-grey); border-radius: 10px;
+            margin-bottom: 0; color: var(--text-light); -moz-appearance: textfield;
+        }
+        .setup-grid input::-webkit-outer-spin-button, .setup-grid input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .setup-grid input:focus { background: var(--text-light); color: var(--primary-bg); }
+        #waiting-for-player-msg { color: var(--text-light); margin-top: 20px; }
+        .setup-buttons { margin-top: auto; padding-bottom: 20px; }
+
+        .game-header { display: flex; justify-content: space-between; align-items: center; color: var(--text-light); margin-bottom: 10px; font-size: 1.1rem; }
+        .game-boards-container { display: flex; gap: 15px; justify-content: space-between; }
+        .board-wrapper { width: 48%; text-align: center; }
+        .board-wrapper h3 { font-size: 0.8rem; margin-bottom: 5px; color: var(--text-light); font-weight: normal; }
+        .bingo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+        .grid-cell {
+            aspect-ratio: 1 / 1; display: flex; justify-content: center;
+            align-items: center; background: var(--light-grey);
+            border-radius: 5px; font-weight: 600; font-size: 0.8rem;
+            color: var(--text-light); transition: background-color 0.3s ease;
+        }
+        .grid-cell.crossed-out { background-color: var(--danger-red); }
+        
+        #bingo-progress-tracker { margin: 15px 0; color: var(--text-light); font-size: 0.9rem; text-align: left;}
+        .progress-player { margin-bottom: 5px; }
+        .progress-letters { font-weight: 700; letter-spacing: 4px; }
+        .progress-letters span { opacity: 0.3; }
+        .progress-letters span.claimed { opacity: 1; color: var(--primary-btn); }
+
+        .caller-board-title { margin-top: 10px; font-size: 1.5rem;}
+        .caller-board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+        .caller-number {
+            padding: 10px 5px; background: var(--input-bg); color: var(--text-light);
+            border-radius: 8px; cursor: pointer; border: none; margin: 0;
+        }
+        .caller-number.called { background: var(--secondary-bg); cursor: not-allowed; opacity: 0.5; }
+        #turn-display.my-turn { color: var(--primary-btn); font-weight: bold; }
+        
+        .help-btn {
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+            border-radius: 50%; background: var(--secondary-bg); color: var(--text-light);
+            font-size: 24px; font-weight: bold; z-index: 100; border: none;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        #winner-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; justify-content: center; align-items: center; z-index: 200;
+        }
+        #winner-modal .modal-content {
+            background: var(--secondary-bg); color: var(--text-light);
+            padding: 40px; border-radius: 20px; text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            width: 90%; max-width: 350px;
+            transition: background-color 0.3s ease;
+        }
+        #winner-modal h1 { font-size: 3rem; color: var(--accent-yellow); text-transform: uppercase; transition: color 0.3s ease; }
+        #winner-modal p { margin: 10px 0 30px; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container" id="app-container">
+        <!-- All HTML is unchanged -->
+        <div id="home-screen" class="card active">
+            <header class="card-header">
+                <a href="https://odiagames.site/"><svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></a>
+                <div class="lang-icon" id="lang-switch"></div>
+            </header>
+            <div class="card-body">
+                <h1 data-key="bingo">ବିଙ୍ଗୋ</h1>
+                <input type="text" id="username-input" data-key-placeholder="yourName" placeholder="ତୁମର ନାମ">
+                <button id="create-room-btn" class="btn-primary" data-key="createRoom">ରୁମ୍ ବନାନ୍ତୁ</button>
+                <button id="join-room-btn" class="btn-secondary" data-key="joinRoom">ରୁମ୍ ଯୋଗ ଦିଅନ୍ତୁ</button>
+            </div>
+        </div>
+        
+        <div id="room-action-screen" class="card">
+            <header class="card-header"><button class="back-btn"><svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button></header>
+             <div class="card-body">
+                <h1 id="room-action-title"></h1>
+                <div id="create-room-id-container">Room ID <span id="room-id-display"></span></div>
+                <div id="join-room-id-input-container" class="join-id-wrapper">
+                     <span class="join-id-prefix">SB</span>
+                     <input type="number" id="join-room-id-number-input" data-key-placeholder="enterRoomId" placeholder="XXXX">
+                </div>
+                <input type="password" id="room-password-input" data-key-placeholder="passwordOptional" placeholder="ପାସୱାର୍ଡ (ବୈକଳ୍ପିକ)">
+                <button id="confirm-room-action-btn" class="btn-primary"></button>
+            </div>
+        </div>
+
+        <div id="lobby-screen" class="card">
+            <header class="card-header"><button class="back-btn"><svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button></header>
+            <div class="card-body">
+                <h1 data-key="lobbyBingo">ଲବି ବିଙ୍ଗୋ</h1>
+                <div id="lobby-room-id-display">Room ID <span></span></div>
+                <div id="player-list"></div>
+                <button id="start-game-btn" class="btn-primary admin-only" data-key="startGame">ଖେଳ ଆରମ୍ଭ କରନ୍ତୁ</button>
+                <button id="invite-btn" class="btn-secondary admin-only" data-key="inviteFriends">ସାଙ୍ଗମାନଙ୍କୁ ଆମନ୍ତ୍ରଣ</button>
+            </div>
+        </div>
+
+        <div id="game-setup-screen" class="card">
+             <header class="card-header">
+                <button class="back-btn" id="setup-home-btn">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                </button>
+            </header>
+            <div class="card-body">
+                <h2 data-key="writeNumbers">୧ ରୁ ୨୫ ମଧ୍ୟରେ ସଂଖ୍ୟା ଲେଖନ୍ତୁ</h2>
+                <div id="player-grid-setup" class="setup-grid"></div>
+                <div class="setup-buttons">
+                    <button id="randomize-btn" class="btn-secondary" data-key="randomize">ରାଣ୍ଡମାଇଜ୍</button>
+                    <button id="done-setup-btn" data-key="done">ହୋଇଗଲା</button>
+                </div>
+                <p id="waiting-for-player-msg" style="display: none;"></p>
+            </div>
+        </div>
+        
+        <div id="game-screen" class="card">
+            <div class="game-header">
+                <div id="turn-display"></div>
+                <div id="game-timer">00:00</div>
+            </div>
+            <div id="bingo-progress-tracker"></div>
+            <div class="game-boards-container">
+                <div class="board-wrapper">
+                    <h3 id="my-board-label" data-key="myBoard">ମୋ ବୋର୍ଡ</h3>
+                    <div id="my-bingo-grid" class="bingo-grid"></div>
+                </div>
+                <div class="board-wrapper">
+                    <h3 id="opponent-board-label" data-key="opponentBoard">ପ୍ରତିପକ୍ଷଙ୍କ ବୋର୍ଡ</h3>
+                    <div id="opponent-bingo-grid" class="bingo-grid"></div>
+                </div>
+            </div>
+            <h2 class="caller-board-title" data-key="callNumber">ନମ୍ବର ବାଛନ୍ତୁ</h2>
+            <div id="caller-board" class="caller-board"></div>
+        </div>
+    </div>
+    
+    <div id="winner-modal">
+        <div class="modal-content">
+            <h1 data-key="bingo">BINGO!</h1>
+            <p id="winner-name-display"></p>
+            <p id="winner-time-display"></p>
+            <button id="modal-play-again-btn" class="btn-primary" data-key="playAgain">Play Again</button>
+        </div>
+    </div>
+
+    <button class="help-btn">?</button>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+     <script>
+        // --- JAVASCRIPT LOGIC ---
+        
+        // 1. FIREBASE CONFIGURATION
+        const firebaseConfig = {
+             apiKey: "AIzaSyATp0upRns43tI3A09Bax61-1fBQGqa1fE",
+             authDomain: "odiabingogame.firebaseapp.com",
+             databaseURL: "https://odiabingogame-default-rtdb.asia-southeast1.firebasedatabase.app",
+             projectId: "odiabingogame",
+             storageBucket: "odiabingogame.firebasestorage.app",
+             messagingSenderId: "853869547477",
+             appId: "1:853869547477:web:e66296fcff174464b8b75c",
+             measurementId: "G-1PH6KGNZTP"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // 2. GLOBAL STATE & DOM ELEMENTS
+        let currentRoomId = null;
+        let currentPlayerId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+        let isAdmin = false;
+        let currentLang = 'or';
+        let currentScreen = 'home-screen';
+        let currentRoomAction = null;
+        let roomListener = null;
+        let gameTimerInterval = null;
+        let inviteData = null;
+
+        // 3. TRANSLATIONS
+        const translations = {
+            or: {
+                bingo: "ବିଙ୍ଗୋ", yourName: "ତୁମର ନାମ", createRoom: "ରୁମ୍ ବନାନ୍ତୁ", joinRoom: "ରୁମ୍ ଯୋଗ ଦିଅନ୍ତୁ",
+                lobbyBingo: "ଲବି ବିଙ୍ଗୋ", create: "ବନାନ୍ତୁ", join: "ଯୋଗ ଦିଅନ୍ତୁ", passwordOptional: "ପାସୱାର୍ଡ (ବୈକଳ୍ପିକ)",
+                enterRoomId: "XXXX", startGame: "ଖେଳ ଆରମ୍ଭ କରନ୍ତୁ", inviteFriends: "ସାଙ୍ଗମାନଙ୍କୁ ଆମନ୍ତ୍ରଣ",
+                writeNumbers: "୧ ରୁ ୨୫ ମଧ୍ୟରେ ସଂଖ୍ୟା ଲେଖନ୍ତୁ", done: "ହୋଇଗଲା", waitingForPlayer: "ଅନ୍ୟ ଖେଳାଳିଙ୍କ ପାଇଁ ଅପେକ୍ଷା...",
+                randomize: "ଓଲଟପାଲଟ କରନ୍ତୁ", myBoard: "ମୋ ବୋର୍ଡ", opponentBoard: "ପ୍ରତିପକ୍ଷଙ୍କ ବୋର୍ଡ", callNumber: "ନମ୍ବର ବାଛନ୍ତୁ",
+                yourTurn: "ତୁମର ପାଳି", opponentTurn: "'ଙ୍କ ପାଳି",
+                timeTaken: "ସମୟ ନେଇଛନ୍ତି:", playAgain: "ପୁଣି ଖେଳନ୍ତୁ",
+                usernameTaken: "ଏହି ନାମ ବ୍ୟବହୃତ ହୋଇଛି, ଅନ୍ୟ ଏକ ନାମ ବାଛନ୍ତୁ।",
+                howToPlayTitle: "କିପରି ଖେଳିବେ", howToPlayText: "୧. ରୁମ୍ ବନାନ୍ତୁ/ଯୋଗ ଦିଅନ୍ତୁ। \n୨. ୧-୨୫ ମଧ୍ୟରେ ୨୫ଟି ସଂଖ୍ୟା ବାଛନ୍ତୁ। \n୩. B-I-N-G-O ବନାଇବା ପାଇଁ ୫ଟି ଲାଇନ୍ ସମ୍ପୂର୍ଣ୍ଣ କରନ୍ତୁ।\n\n\nସନ୍ଦୀପ୍ ବିଶ୍ବାଳ ଜି'ଙ୍କ ଦ୍ବାରା ପ୍ରସ୍ତୁତ",
+                youWonMessage: "ତୁମେ ଜିତିଲ!",
+                youLostMessage: "ତୁମେ ହାରିଲ। {winnerName} ଜିତିଲେ!"
+            },
+            en: {
+                bingo: "Bingo", yourName: "Your Name", createRoom: "Create Room", joinRoom: "Join Room",
+                lobbyBingo: "Lobby Bingo", create: "Create", join: "Join", passwordOptional: "Password (Optional)",
+                enterRoomId: "XXXX", startGame: "Start Game", inviteFriends: "Invite Friends",
+                writeNumbers: "Write Numbers from 1 to 25", done: "Done", waitingForPlayer: "Waiting for other player...",
+                randomize: "Randomize", myBoard: "My Board", opponentBoard: "Opponent's Board", callNumber: "Call a Number",
+                yourTurn: "Your Turn", opponentTurn: "'s Turn",
+                timeTaken: "Time Taken:", playAgain: "Play Again",
+                usernameTaken: "Username already used in this room. Please choose another.",
+                howToPlayTitle: "How to Play", howToPlayText: "1. Create or join a room.\n2. Pick 25 unique numbers from 1-25.\n3. Complete 5 lines (rows, cols, diags) to spell B-I-N-G-O.\n\n\nMade by Sandeep Biswal G",
+                youWonMessage: "You Won!",
+                youLostMessage: "You Lost. {winnerName} Won!"
+            }
+        };
+        const odiaNumerals = ['୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯'];
+        
+        // 4. CORE FUNCTIONS
+        function navigateTo(screenId) { document.querySelectorAll('.card').forEach(c=>c.classList.remove('active')); document.getElementById(screenId).classList.add('active'); currentScreen = screenId; }
+        function toOdiaNumber(num) { return String(num).split('').map(digit => odiaNumerals[parseInt(digit)]).join(''); }
+        function updateLanguage(lang) {
+            currentLang = lang; document.documentElement.lang = lang;
+            localStorage.setItem('bingoLang', lang);
+            document.getElementById('lang-switch').dataset.lang = lang;
+            document.querySelectorAll('[data-key]').forEach(el => { if (translations[lang][el.dataset.key]) el.textContent = translations[lang][el.dataset.key]; });
+            document.querySelectorAll('[data-key-placeholder]').forEach(el => { if (translations[lang][el.dataset.keyPlaceholder]) el.placeholder = translations[lang][el.dataset.keyPlaceholder]; });
+        }
+
+        // 5. EVENT LISTENERS
+        window.onload = () => {
+            const savedLang = localStorage.getItem('bingoLang') || 'or';
+            updateLanguage(savedLang);
+            const savedName = localStorage.getItem('bingoPlayerName');
+            document.getElementById('username-input').value = savedName || `sb-user${Math.floor(100+Math.random()*900)}`;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const roomIdFromUrl = urlParams.get('room');
+            if (roomIdFromUrl) {
+                const passwordFromUrl = urlParams.get('pw');
+                inviteData = { roomId: roomIdFromUrl.toUpperCase(), password: passwordFromUrl || '' };
+                alert(`Invitation to room ${inviteData.roomId} received! Please confirm your name and click "Join Room".`);
+            }
+        };
+        document.getElementById('lang-switch').addEventListener('click', () => updateLanguage(currentLang === 'or' ? 'en' : 'or'));
+        document.querySelector('.help-btn').addEventListener('click', () => alert(`${translations[currentLang].howToPlayTitle}\n\n${translations[currentLang].howToPlayText}`));
+        document.querySelectorAll('.back-btn').forEach(btn => btn.addEventListener('click', () => { if(confirm("Are you sure you want to leave the lobby?")) window.location.reload(); }));
+        document.getElementById('setup-home-btn').addEventListener('click', () => { if(confirm("Are you sure you want to leave the game?")) window.location.reload(); });
+        document.getElementById('create-room-btn').addEventListener('click', () => {
+            if (inviteData) {
+                alert(`You have a pending invitation. Please click "Join Room" to use it.`);
+                return;
+            }
+            currentRoomAction = 'create';
+            const newRoomId = 'SB' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('room-id-display').textContent = newRoomId;
+            document.getElementById('room-action-title').textContent = translations[currentLang].createRoom;
+            document.getElementById('confirm-room-action-btn').textContent = translations[currentLang].create;
+            document.getElementById('create-room-id-container').style.display = 'block';
+            document.getElementById('join-room-id-input-container').style.display = 'none'; navigateTo('room-action-screen');
+        });
+        document.getElementById('join-room-btn').addEventListener('click', () => {
+            if (inviteData) {
+                handleJoinRoom();
+            } else {
+                currentRoomAction = 'join';
+                document.getElementById('room-action-title').textContent = translations[currentLang].joinRoom;
+                document.getElementById('confirm-room-action-btn').textContent = translations[currentLang].join;
+                document.getElementById('create-room-id-container').style.display = 'none';
+                document.getElementById('join-room-id-input-container').style.display = 'flex'; navigateTo('room-action-screen');
+            }
+        });
+        document.getElementById('confirm-room-action-btn').addEventListener('click', () => {
+            if (currentRoomAction === 'create') handleCreateRoom();
+            else if (currentRoomAction === 'join') handleJoinRoom();
+        });
+        document.getElementById('start-game-btn').addEventListener('click', () => { if (isAdmin) db.ref(`rooms/${currentRoomId}/status`).set('setting_up'); });
+        
+        document.getElementById('invite-btn').addEventListener('click', () => {
+            db.ref('rooms/' + currentRoomId).once('value', snapshot => {
+                const roomData = snapshot.val();
+                if (!roomData) return;
+                
+                let inviteUrl = `${window.location.origin}${window.location.pathname}?room=${currentRoomId}`;
+                if (roomData.password) {
+                    inviteUrl += `&pw=${roomData.password}`;
+                }
+                
+                navigator.clipboard.writeText(inviteUrl).then(() => {
+                    alert("Invite link copied to clipboard!");
+                }).catch(err => {
+                    console.error('Failed to copy invite link: ', err);
+                    alert("Failed to copy link. Please copy it manually.");
+                });
+            });
+        });
+
+        document.getElementById('randomize-btn').addEventListener('click', () => {
+            const numbers = Array.from({length: 25}, (_, i) => i + 1);
+            for (let i = numbers.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [numbers[i], numbers[j]] = [numbers[j], numbers[i]]; }
+            document.querySelectorAll('#player-grid-setup input').forEach((input, i) => input.value = numbers[i]);
+        });
+        document.getElementById('done-setup-btn').addEventListener('click', handleDoneSetup);
+        document.getElementById('modal-play-again-btn').addEventListener('click', () => window.location.reload());
+
+        document.getElementById('caller-board').addEventListener('click', (event) => {
+            const button = event.target.closest('.caller-number');
+            if (button && !button.disabled) {
+                const number = parseInt(button.dataset.number);
+                handleNumberCall(number);
+            }
+        });
+
+        // 6. GAME LOGIC FUNCTIONS
+        function kickPlayer(playerIdToKick) { if (isAdmin) db.ref(`rooms/${currentRoomId}/players/${playerIdToKick}`).remove(); }
+        function validateUsername() {
+            const usernameInput = document.getElementById('username-input');
+            const username = usernameInput.value.trim();
+            if (username.length < 4 || username.includes(' ')) {
+                alert("Username must be at least 4 characters and contain no spaces.");
+                return null;
+            }
+            localStorage.setItem('bingoPlayerName', username);
+            return username;
+        }
+        function handleCreateRoom() {
+            const username = validateUsername(); if (!username) return;
+            const newRoomId = document.getElementById('room-id-display').textContent;
+            const password = document.getElementById('room-password-input').value.trim();
+            const roomData = { adminId: currentPlayerId, password: password || null, status: 'waiting', players: { [currentPlayerId]: { username, isReady: false } } };
+            db.ref('rooms/' + newRoomId).set(roomData).then(() => { currentRoomId = newRoomId; isAdmin = true; listenToRoomUpdates(newRoomId); navigateTo('lobby-screen'); });
+        }
+        function handleJoinRoom() {
+            const username = validateUsername(); if (!username) return;
+
+            const roomId = inviteData ? inviteData.roomId : 'SB' + document.getElementById('join-room-id-number-input').value.trim();
+            const password = inviteData ? inviteData.password : document.getElementById('room-password-input').value.trim();
+
+            if (!roomId || (currentRoomAction === 'join' && !inviteData && roomId.length !== 6)) {
+                 alert("Please enter a valid 4-digit Room ID."); return;
+            }
+            
+            const roomRef = db.ref('rooms/' + roomId);
+            roomRef.once('value', snapshot => {
+                if (!snapshot.exists()) { alert("Room not found!"); return; }
+                const roomData = snapshot.val();
+                if (roomData.password && roomData.password !== password) { alert("Incorrect password!"); return; }
+                
+                const playersInRoom = roomData.players || {};
+                const nameIsTaken = Object.values(playersInRoom).some(player => player.username.toLowerCase() === username.toLowerCase());
+                if (nameIsTaken) {
+                    alert(translations[currentLang].usernameTaken);
+                    return;
+                }
+
+                if (Object.keys(playersInRoom).length >= 2 && !playersInRoom[currentPlayerId]) { alert("Room is full!"); return; }
+                roomRef.child(`players/${currentPlayerId}`).set({ username, isReady: false }).then(() => { currentRoomId = roomId; isAdmin = false; listenToRoomUpdates(roomId); navigateTo('lobby-screen'); });
+            });
+        }
+        function listenToRoomUpdates(roomId) {
+            if (roomListener) db.ref('rooms/' + currentRoomId).off('value', roomListener);
+            roomListener = db.ref('rooms/' + roomId).on('value', snapshot => {
+                if (!snapshot.exists()) { if (currentScreen !== 'home-screen') { alert("Room closed by admin."); window.location.reload(); } return; }
+                const roomData = snapshot.val();
+                if ((!roomData.players || !roomData.players[currentPlayerId]) && currentScreen !== 'home-screen') {
+                    alert("You have been removed from the room."); window.location.reload(); return;
+                }
+                if (currentScreen === 'lobby-screen') updateLobbyUI(roomData);
+                if (roomData.status === 'setting_up' && currentScreen !== 'game-setup-screen') { navigateTo('game-setup-screen'); renderGameSetupGrid(); }
+                if (roomData.status === 'playing' && currentScreen !== 'game-screen') { renderGameScreen(roomData); }
+                if (roomData.status === 'playing') updateGameUI(roomData);
+                if (roomData.status === 'finished' && document.getElementById('winner-modal').style.display !== 'flex') {
+                    showGameOver(roomData);
+                }
+            });
+        }
+        
+        function updateLobbyUI(roomData) {
+            document.querySelector('#lobby-room-id-display span').textContent = currentRoomId;
+            const playerListEl = document.getElementById('player-list'); playerListEl.innerHTML = '';
+            Object.keys(roomData.players).forEach(pId => {
+                const player = roomData.players[pId];
+                const lobbyIcon = `<svg class="status-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path></svg>`;
+                const kickButton = (isAdmin && pId !== currentPlayerId) ? `<button class="kick-btn" onclick="kickPlayer('${pId}')"><svg class="icon" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>` : '';
+                playerListEl.innerHTML += `<div class="player-item">${lobbyIcon}<span>${player.username}</span>${kickButton}</div>`;
+            });
+            if (isAdmin) {
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.add('visible'));
+                document.getElementById('start-game-btn').disabled = Object.keys(roomData.players).length !== 2;
+            }
+        }
+        
+        function renderGameSetupGrid() {
+            const gridContainer = document.getElementById('player-grid-setup'); gridContainer.innerHTML = '';
+            for (let i = 0; i < 25; i++) { gridContainer.innerHTML += `<input type="number" min="1" max="25">`; }
+        }
+        
+        function handleDoneSetup() {
+            const inputs = document.querySelectorAll('#player-grid-setup input'); const numbers = new Set(); const gridArray = [];
+            for (const input of inputs) {
+                const val = parseInt(input.value);
+                if (isNaN(val) || val < 1 || val > 25 || numbers.has(val)) { alert("Please fill all boxes with unique numbers between 1 and 25."); return; }
+                numbers.add(val); gridArray.push(val);
+            }
+            db.ref(`rooms/${currentRoomId}/grids/${currentPlayerId}`).set(gridArray);
+            db.ref(`rooms/${currentRoomId}/players/${currentPlayerId}/isReady`).set(true);
+            document.querySelector('.setup-buttons').style.display = 'none';
+            const waitingMsg = document.getElementById('waiting-for-player-msg'); waitingMsg.textContent = translations[currentLang].waitingForPlayer; waitingMsg.style.display = 'block';
+
+            db.ref(`rooms/${currentRoomId}`).once('value', snapshot => {
+                const { players, adminId } = snapshot.val(); const playerIds = Object.keys(players);
+                if (playerIds.length === 2 && players[playerIds[0]].isReady && players[playerIds[1]].isReady) {
+                    const initialGameState = { 
+                        turn: adminId, 
+                        calledNumbers: [], 
+                        claimedWins: {}, 
+                        gameWinner: null,
+                        startTime: firebase.database.ServerValue.TIMESTAMP 
+                    };
+                    playerIds.forEach(id => { initialGameState.claimedWins[id] = { letters: [], patterns: [] }; });
+                    db.ref(`rooms/${currentRoomId}/gameState`).set(initialGameState); 
+                    db.ref(`rooms/${currentRoomId}/status`).set('playing');
+                }
+            });
+        }
+        
+        function renderGameScreen(roomData) {
+            navigateTo('game-screen');
+            const myGridContainer = document.getElementById('my-bingo-grid'); myGridContainer.innerHTML = '';
+            const myGrid = roomData.grids[currentPlayerId];
+            myGrid.forEach(num => myGridContainer.innerHTML += `<div class="grid-cell" data-number="${num}">${currentLang === 'or' ? toOdiaNumber(num) : num}</div>`);
+            const opponentId = Object.keys(roomData.players).find(id => id !== currentPlayerId);
+            const opponentGridContainer = document.getElementById('opponent-bingo-grid'); opponentGridContainer.innerHTML = '';
+            if (roomData.grids && roomData.grids[opponentId]) {
+                const opponentGrid = roomData.grids[opponentId];
+                opponentGrid.forEach(num => opponentGridContainer.innerHTML += `<div class="grid-cell" data-number="${num}"></div>`);
+            }
+            const callerBoard = document.getElementById('caller-board'); callerBoard.innerHTML = '';
+            for (let i = 1; i <= 25; i++) {
+                callerBoard.innerHTML += `<button class="caller-number" data-number="${i}">${i}</button>`;
+            }
+        }
+        
+        // ✅✅✅ NEW, SIMPLIFIED, AND CORRECT FUNCTION ✅✅✅
+        function handleNumberCall(number) {
+            const roomRef = db.ref('rooms/' + currentRoomId);
+
+            // Get the entire current state of the room in one go.
+            roomRef.once('value', snapshot => {
+                const roomData = snapshot.val();
+                
+                // --- Perform all safety checks first ---
+                if (!roomData || !roomData.gameState || roomData.status !== 'playing' || roomData.gameState.gameWinner) {
+                    return; // Game is not in a state to be played.
+                }
+                if (roomData.gameState.turn !== currentPlayerId) {
+                    return; // Not my turn.
+                }
+                if (roomData.gameState.calledNumbers?.includes(number)) {
+                    return; // Number already called.
+                }
+
+                // --- If all checks pass, we construct the entire next state of the game ---
+                const updates = {};
+                const { gameState, grids, players } = roomData;
+                const turnPlayerId = gameState.turn;
+
+                // 1. Add the new number
+                const newCalledNumbers = [...(gameState.calledNumbers || []), number];
+                updates['/gameState/calledNumbers'] = newCalledNumbers;
+                
+                // 2. Recalculate wins for every player based on the new numbers
+                const winPatterns = [[0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24],[0,5,10,15,20],[1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],[0,6,12,18,24],[4,8,12,16,20]];
+                const bingoLetters = ["B", "I", "N", "G", "O"];
+                
+                let playerHasWon = false;
+                for (const pId in players) {
+                    let completedLines = 0;
+                    for (const pattern of winPatterns) {
+                        if (pattern.every(index => newCalledNumbers.includes(grids[pId][index]))) {
+                            completedLines++;
+                        }
+                    }
+                    // Update the "BINGO" letters for the UI
+                    updates[`/gameState/claimedWins/${pId}/letters`] = bingoLetters.slice(0, completedLines);
+                    
+                    if (pId === turnPlayerId && completedLines >= 5) {
+                        playerHasWon = true;
+                    }
+                }
+
+                // 3. Check for game end or switch turn
+                if (playerHasWon) {
+                    updates['/gameState/gameWinner'] = turnPlayerId;
+                    updates['/status'] = 'finished';
+                } else {
+                    const opponentId = Object.keys(players).find(id => id !== turnPlayerId);
+                    updates['/gameState/turn'] = opponentId;
+                }
+
+                // --- Finally, commit the single, atomic update to Firebase ---
+                roomRef.update(updates);
+            });
+        }
+        
+        // The old checkAndClaimWin() function is no longer needed and has been deleted.
+
+        function updateGameUI(roomData) {
+            const { gameState, players } = roomData;
+            if (!gameState) return; // Don't run if gameState hasn't been created yet
+
+            const turnDisplay = document.getElementById('turn-display');
+            const isMyTurn = gameState.turn === currentPlayerId;
+
+            if (isMyTurn) {
+                turnDisplay.textContent = translations[currentLang].yourTurn; turnDisplay.classList.add('my-turn');
+            } else {
+                const opponentUsername = players[gameState.turn]?.username || '';
+                turnDisplay.textContent = opponentUsername + translations[currentLang].opponentTurn; turnDisplay.classList.remove('my-turn');
+            }
+            
+            const progressTracker = document.getElementById('bingo-progress-tracker');
+            progressTracker.innerHTML = '';
+            for (const pId in players) {
+                if (gameState.claimedWins && gameState.claimedWins[pId]) {
+                    const playerWins = gameState.claimedWins[pId];
+                    let letterHTML = 'BINGO'.split('').map(letter => 
+                        `<span class="${(playerWins.letters || []).includes(letter) ? 'claimed' : ''}">${letter}</span>`
+                    ).join('');
+                    progressTracker.innerHTML += `<div class="progress-player">${players[pId].username}: <span class="progress-letters">${letterHTML}</span></div>`;
+                }
+            }
+
+            const calledNumbers = gameState.calledNumbers || [];
+            document.querySelectorAll('.caller-number').forEach(btn => {
+                const num = parseInt(btn.dataset.number);
+                btn.classList.toggle('called', calledNumbers.includes(num));
+                btn.disabled = calledNumbers.includes(num) || !isMyTurn;
+            });
+
+            document.querySelectorAll('.grid-cell').forEach(cell => {
+                const num = parseInt(cell.dataset.number);
+                cell.classList.toggle('crossed-out', calledNumbers.includes(num));
+            });
+
+            if (gameState.startTime && !gameTimerInterval) {
+                gameTimerInterval = setInterval(() => {
+                    const gameTimerEl = document.getElementById('game-timer');
+                    if (gameTimerEl && roomData.status === 'playing') {
+                        const elapsed = Math.floor((Date.now() - gameState.startTime) / 1000);
+                        const minutes = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                        const seconds = String(elapsed % 60).padStart(2, '0');
+                        gameTimerEl.textContent = `${minutes}:${seconds}`;
+                    }
+                }, 1000);
+            }
+        }
+        
+        function showGameOver(roomData) {
+            clearInterval(gameTimerInterval);
+            gameTimerInterval = null;
+            const winnerId = roomData.gameState.gameWinner;
+            const winnerName = roomData.players[winnerId].username;
+
+            const modal = document.getElementById('winner-modal');
+            const modalContent = modal.querySelector('.modal-content');
+            const winnerNameDisplay = document.getElementById('winner-name-display');
+            const modalTitle = modal.querySelector('h1');
+            const playAgainBtn = modal.querySelector('#modal-play-again-btn');
+
+            if (winnerId === currentPlayerId) {
+                winnerNameDisplay.textContent = translations[currentLang].youWonMessage;
+                modalContent.style.backgroundColor = 'var(--primary-btn)';
+                modalContent.style.color = 'var(--text-dark)';
+                modalTitle.style.color = 'var(--secondary-bg)';
+                playAgainBtn.style.backgroundColor = 'var(--secondary-bg)';
+                playAgainBtn.style.color = 'var(--text-light)';
+            } else {
+                const lostMsg = translations[currentLang].youLostMessage;
+                winnerNameDisplay.textContent = lostMsg.replace('{winnerName}', winnerName);
+                modalContent.style.backgroundColor = 'var(--danger-red)';
+                modalContent.style.color = 'var(--text-light)';
+                modalTitle.style.color = 'var(--accent-yellow)';
+                playAgainBtn.style.backgroundColor = 'var(--secondary-bg)';
+                playAgainBtn.style.color = 'var(--text-light)';
+            }
+
+            document.getElementById('winner-time-display').textContent = `${translations[currentLang].timeTaken} ${document.getElementById('game-timer').textContent}`;
+            document.getElementById('app-container').classList.add('blurred');
+            modal.style.display = 'flex';
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        try {
+          var currentFetch = window.fetch ? window.fetch.bind(window) : undefined;
+          var desc =
+            Object.getOwnPropertyDescriptor(window, 'fetch') ||
+            Object.getOwnPropertyDescriptor(Window.prototype, 'fetch');
+          if (!desc || desc.configurable !== false) {
+            Object.defineProperty(window, 'fetch', {
+              configurable: true,
+              enumerable: true,
+              get: function () {
+                return currentFetch;
+              },
+              set: function (nextFetch) {
+                if (typeof nextFetch === 'function') {
+                  currentFetch = nextFetch;
+                }
+              },
+            });
+          }
+        } catch (_e) {}
+
+        window.addEventListener(
+          'error',
+          function (event) {
+            var msg = String((event && event.message) || '');
+            var file = String((event && event.filename) || '');
+            if (
+              file.indexOf('chrome-extension://') === 0 ||
+              msg.indexOf('Cannot set property fetch') !== -1
+            ) {
+              event.stopImmediatePropagation();
+              event.preventDefault();
+            }
+          },
+          true
+        );
+
+        window.addEventListener(
+          'unhandledrejection',
+          function (event) {
+            var reason = String((event && event.reason) || '');
+            if (
+              reason.indexOf('chrome-extension://') !== -1 ||
+              reason.indexOf('Cannot set property fetch') !== -1
+            ) {
+              event.stopImmediatePropagation();
+              event.preventDefault();
+            }
+          },
+          true
+        );
+      })();
+    </script>
+    <title>Bingo Game - Popular Indian 1 to 25 Bingo</title>
+    <meta name="description" content="Bingo Game - Popular Indian 1 to 25 Bingo by Sandeep Biswal G. Read the complete guide on Smart Play, 2-color numbers, WebRTC rooms (SBXXXX), and play live on DesiBingo!" />
+    <meta name="keywords" content="Bingo Game, Popular Indian 1 to 25 Bingo, 1 to 25 bingo online, desi bingo, odia bingo, ବିଙ୍ଗୋ, smart play bingo, multiplayer bingo game, webrtc bingo room code sbxxxx, Sandeep Biswal G, imsbg github io bingo" />
+    <meta name="author" content="Sandeep Biswal G" />
+    <meta name="creator" content="Sandeep Biswal G" />
+    <meta name="publisher" content="Sandeep Biswal G" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#4F46E5" />
+
+    <!-- Canonical & Hreflang Links (Default configured for https://imsbg.github.io/bingo/ and dynamically synced for https://desibingo.netlify.app/) -->
+    <link rel="canonical" id="canonical-link" href="https://imsbg.github.io/bingo/" />
+    <link rel="alternate" hreflang="x-default" id="hreflang-default" href="https://imsbg.github.io/bingo/" />
+    <link rel="alternate" hreflang="en" id="hreflang-en" href="https://imsbg.github.io/bingo/?lang=en" />
+    <link rel="alternate" hreflang="or" id="hreflang-or" href="https://imsbg.github.io/bingo/?lang=or" />
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="article" id="og-type-meta" />
+    <meta property="og:url" id="og-url-meta" content="https://imsbg.github.io/bingo/" />
+    <meta property="og:title" content="Bingo Game - Popular Indian 1 to 25 Bingo" />
+    <meta property="og:description" content="Bingo Game - Popular Indian 1 to 25 Bingo by Sandeep Biswal G. Explore rules, Smart Play mini-map, 2-color player numbers, spectator view, and play online for free!" />
+    <meta property="og:site_name" content="Bingo Game - Popular Indian 1 to 25 Bingo" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:locale:alternate" content="or_IN" />
+    <meta property="article:author" content="Sandeep Biswal G" />
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" id="twitter-url-meta" content="https://imsbg.github.io/bingo/" />
+    <meta name="twitter:title" content="Bingo Game - Popular Indian 1 to 25 Bingo" />
+    <meta name="twitter:description" content="Bingo Game - Popular Indian 1 to 25 Bingo by Sandeep Biswal G. Read the full feature guide or play live multiplayer 1-25 Bingo online!" />
+    <meta name="twitter:creator" content="Sandeep Biswal G" />
+
+    <!-- Host-Aware Canonical Synchronization Script (imsbg.github.io/bingo/ vs desibingo.netlify.app) -->
+    <script>
+      (function () {
+        try {
+          var host = (window.location.hostname || '').toLowerCase();
+          var path = (window.location.pathname || '').toLowerCase();
+          var search = window.location.search || '';
+          var params = new URLSearchParams(search);
+          var viewParam = params.get('view');
+
+          var isGithubBlog =
+            viewParam === 'blog' ||
+            (viewParam !== 'game' &&
+              (host.indexOf('github.io') !== -1 || path.indexOf('/bingo') === 0));
+
+          var canonicalHref = isGithubBlog
+            ? 'https://imsbg.github.io/bingo/'
+            : 'https://desibingo.netlify.app/';
+
+          var canonicalEl = document.getElementById('canonical-link');
+          if (canonicalEl) canonicalEl.setAttribute('href', canonicalHref);
+
+          var ogUrlEl = document.getElementById('og-url-meta');
+          if (ogUrlEl) ogUrlEl.setAttribute('content', canonicalHref);
+
+          var twUrlEl = document.getElementById('twitter-url-meta');
+          if (twUrlEl) twUrlEl.setAttribute('content', canonicalHref);
+
+          var ogTypeEl = document.getElementById('og-type-meta');
+          if (ogTypeEl) ogTypeEl.setAttribute('content', isGithubBlog ? 'article' : 'website');
+
+          var hrefDefault = document.getElementById('hreflang-default');
+          var hrefEn = document.getElementById('hreflang-en');
+          var hrefOr = document.getElementById('hreflang-or');
+          if (!isGithubBlog) {
+            if (hrefDefault) hrefDefault.setAttribute('href', 'https://desibingo.netlify.app/');
+            if (hrefEn) hrefEn.setAttribute('href', 'https://desibingo.netlify.app/en');
+            if (hrefOr) hrefOr.setAttribute('href', 'https://desibingo.netlify.app/odia');
+          }
+        } catch (_e) {}
+      })();
+    </script>
+
+    <!-- Google Fonts: Plus Jakarta Sans, Outfit, JetBrains Mono & Noto Sans Oriya -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+Oriya:wght@400;600;700;800&family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Bingo 5x5 Web Icon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Crect width='32' height='32' rx='8' fill='%234F46E5'/%3E%3Crect x='5' y='5' width='9' height='9' rx='2.5' fill='%2310B981'/%3E%3Crect x='18' y='5' width='9' height='9' rx='2.5' fill='%23F43F5E'/%3E%3Crect x='5' y='18' width='9' height='9' rx='2.5' fill='%23F59E0B'/%3E%3Crect x='18' y='18' width='9' height='9' rx='2.5' fill='%2338BDF8'/%3E%3Cpath d='M5 5L27 27' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+    <!-- Schema.org Structured Data (BlogPosting for imsbg.github.io/bingo/, VideoGame for desibingo.netlify.app, and FAQPage) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://imsbg.github.io/bingo/#website",
+          "url": "https://imsbg.github.io/bingo/",
+          "name": "Bingo Game - Popular Indian 1 to 25 Bingo",
+          "alternateName": ["Desi Bingo", "Indian 1 to 25 Bingo", "ବିଙ୍ଗୋ", "Odia Bingo 1-25"],
+          "inLanguage": ["en", "or"],
+          "author": {
+            "@type": "Person",
+            "name": "Sandeep Biswal G",
+            "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Sandeep Biswal G",
+            "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
+          }
+        },
+        {
+          "@type": "BlogPosting",
+          "@id": "https://imsbg.github.io/bingo/#article",
+          "mainEntityOfPage": "https://imsbg.github.io/bingo/",
+          "headline": "Bingo Game - Popular Indian 1 to 25 Bingo",
+          "name": "Bingo Game - Popular Indian 1 to 25 Bingo",
+          "description": "Complete guide and feature overview of Bingo Game - Popular Indian 1 to 25 Bingo (ବିଙ୍ଗୋ) by Sandeep Biswal G, including Smart Play mini-map, Secret Mode, 2-color player numbers, WebRTC rooms, and Spectator mode.",
+          "url": "https://imsbg.github.io/bingo/",
+          "inLanguage": ["en", "or"],
+          "author": {
+            "@type": "Person",
+            "name": "Sandeep Biswal G",
+            "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Sandeep Biswal G",
+            "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
+          },
+          "about": {
+            "@id": "https://desibingo.netlify.app/#game"
+          }
+        },
+        {
+          "@type": ["VideoGame", "WebApplication"],
+          "@id": "https://desibingo.netlify.app/#game",
+          "name": "Bingo Game - Popular Indian 1 to 25 Bingo",
+          "alternateName": ["1 to 25 Bingo Game", "Desi Bingo", "ବିଙ୍ଗୋ", "Indian School Bingo 1-25"],
+          "url": "https://desibingo.netlify.app/",
+          "sameAs": ["https://imsbg.github.io/bingo/"],
+          "inLanguage": ["en", "or"],
+          "applicationCategory": "GameApplication",
+          "genre": ["Board Game", "Number Puzzle", "Multiplayer Game"],
+          "operatingSystem": "All",
+          "browserRequirements": "Requires JavaScript and WebRTC support",
+          "playMode": ["MultiPlayer", "SinglePlayer"],
+          "numberOfPlayers": {
+            "@type": "QuantitativeValue",
+            "minValue": 1,
+            "maxValue": 2
+          },
+          "description": "Play the popular Indian 1 to 25 Bingo Game (ବିଙ୍ଗୋ) online for free! Create WebRTC multiplayer rooms (SBXXXX), enable Smart Play, watch live, or play vs AI.",
+          "author": {
+            "@type": "Person",
+            "name": "Sandeep Biswal G",
+            "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR",
+            "availability": "https://schema.org/InStock"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://imsbg.github.io/bingo/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do you play the Indian 1 to 25 Bingo Game?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Each player arranges numbers 1 to 25 on a 5x5 grid. Players take turns calling any uncalled number, which is crossed out on both boards simultaneously. The first player to complete 5 full lines (horizontal, vertical, or diagonal) spells B-I-N-G-O and wins."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is Smart Play in 1 to 25 Bingo?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "When Smart Play is OFF (default Secret Mode), your opponent's board and B-I-N-G-O line progress stay hidden until someone wins, after which both boards are revealed side-by-side. When Smart Play is ON, both players see a live 5x5 mini-map of the opponent's board without numbers (showing red called cells and green completed-line cells) plus live B-I-N-G-O letter progress."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Where can I play Bingo Game - Popular Indian 1 to 25 Bingo online?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "You can play the full real-time WebRTC multiplayer and solo AI game at https://desibingo.netlify.app/ and read the official feature and strategy blog at https://imsbg.github.io/bingo/."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body class="antialiased selection:bg-indigo-500 selection:text-white">
+    <div id="root"></div>
+    <noscript>
+      <article style="max-width: 800px; margin: 2rem auto; padding: 1.5rem; font-family: sans-serif; line-height: 1.6;">
+        <h1>Bingo Game - Popular Indian 1 to 25 Bingo</h1>
+        <p><strong>Author:</strong> Sandeep Biswal G</p>
+        <p>Welcome to the official guide and game portal for <strong>Bingo Game - Popular Indian 1 to 25 Bingo (ବିଙ୍ଗୋ)</strong>. Arrange numbers 1 to 25 on a 5x5 board, call numbers in real-time WebRTC rooms (SBXXXX), use Smart Play or Secret Mode, and complete 5 lines (B-I-N-G-O) to win.</p>
+        <p><a href="https://desibingo.netlify.app/">Play Live at DesiBingo (desibingo.netlify.app)</a> | <a href="https://imsbg.github.io/bingo/">Official Blog (imsbg.github.io/bingo)</a></p>
+      </article>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
