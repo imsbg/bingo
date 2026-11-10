@@ -6,12 +6,22 @@
 class SoundController {
   private ctx: AudioContext | null = null;
   private enabled: boolean = true;
+  private voiceEnabled: boolean = true;
+  private muteOwnMoveVoice: boolean = true;
 
   constructor() {
     try {
       const saved = localStorage.getItem('sb_bingo_sound');
       if (saved !== null) {
         this.enabled = saved === 'true';
+      }
+      const savedVoice = localStorage.getItem('sb_bingo_voice');
+      if (savedVoice !== null) {
+        this.voiceEnabled = savedVoice === 'true';
+      }
+      const savedMuteOwn = localStorage.getItem('sb_bingo_mute_own_voice');
+      if (savedMuteOwn !== null) {
+        this.muteOwnMoveVoice = savedMuteOwn === 'true';
       }
     } catch {
       // ignore storage errors
@@ -40,6 +50,39 @@ class SoundController {
     this.enabled = val;
     try {
       localStorage.setItem('sb_bingo_sound', String(val));
+    } catch {
+      // ignore
+    }
+  }
+
+  public isVoiceEnabled(): boolean {
+    return this.voiceEnabled;
+  }
+
+  public setVoiceEnabled(val: boolean): void {
+    this.voiceEnabled = val;
+    if (!val && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch {
+        // ignore
+      }
+    }
+    try {
+      localStorage.setItem('sb_bingo_voice', String(val));
+    } catch {
+      // ignore
+    }
+  }
+
+  public isMuteOwnMoveVoice(): boolean {
+    return this.muteOwnMoveVoice;
+  }
+
+  public setMuteOwnMoveVoice(val: boolean): void {
+    this.muteOwnMoveVoice = val;
+    try {
+      localStorage.setItem('sb_bingo_mute_own_voice', String(val));
     } catch {
       // ignore
     }
@@ -223,7 +266,7 @@ class SoundController {
    * Speak a called Bingo number (1..25) out loud in English (even when UI is in Odia)
    */
   public speakNumber(num: number, _lang?: 'or' | 'en') {
-    if (!this.enabled) return;
+    if (!this.enabled || !this.voiceEnabled) return;
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
     if (num < 1 || num > 25) return;
 

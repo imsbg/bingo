@@ -7,6 +7,7 @@ import {
   Users,
   Eye,
   Clock,
+  BrainCircuit,
 } from 'lucide-react';
 import {
   BingoGrid,
@@ -26,6 +27,8 @@ interface BingoSetupCardProps {
   myPlayerLabel: string;
   opponentPlayerLabel: string;
   isSpectator: boolean;
+  smartPlay?: boolean;
+  onToggleSmartPlay?: (enabled: boolean) => void;
   onConfirmGrid: (grid: BingoGrid) => void;
   currentLanguage: Language;
   isDarkMode: boolean;
@@ -40,6 +43,8 @@ export const BingoSetupCard: React.FC<BingoSetupCardProps> = ({
   myPlayerLabel,
   opponentPlayerLabel,
   isSpectator,
+  smartPlay = false,
+  onToggleSmartPlay,
   onConfirmGrid,
   currentLanguage,
   isDarkMode,
@@ -304,9 +309,51 @@ export const BingoSetupCard: React.FC<BingoSetupCardProps> = ({
         </p>
       )}
 
-      {/* Action Buttons: Randomize, Clear, and Done & Ready */}
+      {/* Action Buttons: Smart Play Toggle (for Solo vs Computer), Randomize, Clear, and Done & Ready */}
       {!isSpectator && (
         <div className="space-y-2.5 pt-1">
+          {!isReady && onToggleSmartPlay && (
+            <label
+              className={`flex items-start gap-2.5 p-2.5 rounded-2xl border cursor-pointer transition-colors ${
+                smartPlay
+                  ? isDarkMode
+                    ? 'bg-indigo-500/15 border-indigo-500/40'
+                    : 'bg-indigo-50/90 border-indigo-300'
+                  : isDarkMode
+                  ? 'bg-slate-800/50 border-slate-700/70'
+                  : 'bg-slate-50 border-slate-200'
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked={smartPlay}
+                onChange={(e) => {
+                  sounds.playClick();
+                  onToggleSmartPlay(e.target.checked);
+                }}
+                className="mt-0.5 h-4 w-4 rounded accent-indigo-600"
+              />
+              <div className="text-left">
+                <span className="text-xs font-bold flex items-center gap-1.5">
+                  <BrainCircuit
+                    className={`w-3.5 h-3.5 ${
+                      smartPlay
+                        ? 'text-indigo-600 dark:text-indigo-400'
+                        : 'text-slate-400'
+                    }`}
+                  />
+                  {t.smartPlayLabel}
+                </span>
+                <span
+                  className={`text-[10px] block leading-snug mt-0.5 ${
+                    isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                  }`}
+                >
+                  {t.smartPlayDesc}
+                </span>
+              </div>
+            </label>
+          )}
           {!isReady ? (
             <>
               <div className="grid grid-cols-2 gap-2.5">

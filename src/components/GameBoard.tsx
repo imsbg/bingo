@@ -30,6 +30,7 @@ interface GameBoardProps {
   canMove: boolean;
   status: 'setting_up' | 'playing' | 'won' | 'draw';
   smartPlay: boolean;
+  onToggleSmartPlay?: (enabled: boolean) => void;
   playerNames: { X: string; O: string };
   onCallNumber: (num: number) => void;
   currentLanguage: Language;
@@ -47,6 +48,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   canMove,
   status,
   smartPlay,
+  onToggleSmartPlay,
   playerNames,
   onCallNumber,
   currentLanguage,
@@ -458,24 +460,52 @@ export const GameBoard: React.FC<GameBoardProps> = ({
               {t.myBoard}
             </span>
 
-            <span
-              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-bold border ${
-                smartPlay
-                  ? isDarkMode
-                    ? 'bg-indigo-500/15 border-indigo-500/30 text-indigo-300'
-                    : 'bg-indigo-50 border-indigo-200 text-indigo-700'
-                  : isDarkMode
-                  ? 'bg-slate-800 border-slate-700 text-slate-400'
-                  : 'bg-slate-100 border-slate-200 text-slate-600'
-              }`}
-            >
-              {smartPlay ? (
-                <BrainCircuit className="w-3 h-3 text-indigo-500" />
-              ) : (
-                <Lock className="w-3 h-3 text-amber-500" />
-              )}
-              <span>{smartPlay ? t.smartPlayBadgeOn : t.smartPlayBadgeOff}</span>
-            </span>
+            {onToggleSmartPlay ? (
+              <button
+                type="button"
+                onClick={() => {
+                  sounds.playClick();
+                  onToggleSmartPlay(!smartPlay);
+                }}
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[10px] font-bold border cursor-pointer transition-all active:scale-95 ${
+                  smartPlay
+                    ? isDarkMode
+                      ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-300'
+                      : 'bg-indigo-50 border-indigo-300 text-indigo-700'
+                    : isDarkMode
+                    ? 'bg-slate-800 border-slate-700 text-slate-300 hover:border-indigo-500/40'
+                    : 'bg-slate-100 border-slate-200 text-slate-700 hover:border-indigo-300'
+                }`}
+                title={t.smartPlayLabel}
+              >
+                <input
+                  type="checkbox"
+                  checked={smartPlay}
+                  readOnly
+                  className="h-3 w-3 rounded accent-indigo-600 pointer-events-none"
+                />
+                <span>{t.smartPlayLabel}</span>
+              </button>
+            ) : (
+              <span
+                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-bold border ${
+                  smartPlay
+                    ? isDarkMode
+                      ? 'bg-indigo-500/15 border-indigo-500/30 text-indigo-300'
+                      : 'bg-indigo-50 border-indigo-200 text-indigo-700'
+                    : isDarkMode
+                    ? 'bg-slate-800 border-slate-700 text-slate-400'
+                    : 'bg-slate-100 border-slate-200 text-slate-600'
+                }`}
+              >
+                {smartPlay ? (
+                  <BrainCircuit className="w-3 h-3 text-indigo-500" />
+                ) : (
+                  <Lock className="w-3 h-3 text-amber-500" />
+                )}
+                <span>{smartPlay ? t.smartPlayBadgeOn : t.smartPlayBadgeOff}</span>
+              </span>
+            )}
 
             {lastCalledNumber !== null && (
               <span

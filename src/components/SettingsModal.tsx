@@ -10,6 +10,8 @@ import {
   Check,
   Sparkles,
   Sliders,
+  Mic,
+  MicOff,
 } from 'lucide-react';
 import { Translations, Language } from '../utils/translations';
 import { sounds } from '../utils/sound';
@@ -21,6 +23,10 @@ interface SettingsModalProps {
   onToggleTheme: () => void;
   soundEnabled: boolean;
   onToggleSound: () => void;
+  voiceEnabled?: boolean;
+  onToggleVoice?: () => void;
+  muteOwnMoveVoice?: boolean;
+  onToggleMuteOwnMoveVoice?: () => void;
   currentLanguage: Language;
   onSelectLanguage: (lang: Language) => void;
   playerName: string;
@@ -35,6 +41,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onToggleTheme,
   soundEnabled,
   onToggleSound,
+  voiceEnabled = true,
+  onToggleVoice,
+  muteOwnMoveVoice = true,
+  onToggleMuteOwnMoveVoice,
   currentLanguage,
   onSelectLanguage,
   playerName,
@@ -220,6 +230,92 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 <span>{t.soundOff}</span>
               </button>
             </div>
+          </div>
+
+          {/* Number Voice Announcement & Own Move Mute Controls */}
+          <div className="space-y-2.5">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              {voiceEnabled ? (
+                <Mic className="w-3.5 h-3.5 text-indigo-500" />
+              ) : (
+                <MicOff className="w-3.5 h-3.5 text-rose-500" />
+              )}
+              {t.voiceAnnouncementLabel}
+            </label>
+
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                id="settings-voice-on-btn"
+                onClick={() => {
+                  if (!voiceEnabled && onToggleVoice) onToggleVoice();
+                  sounds.playClick();
+                }}
+                className={`flex items-center justify-center gap-2 p-3 rounded-2xl border font-medium text-sm transition-all ${
+                  voiceEnabled
+                    ? 'bg-indigo-500/10 border-indigo-500 text-indigo-600 dark:text-indigo-400 ring-2 ring-indigo-500/20'
+                    : isDarkMode
+                    ? 'border-slate-800 hover:bg-slate-800 text-slate-400'
+                    : 'border-slate-200 hover:bg-slate-100 text-slate-600'
+                }`}
+              >
+                <Mic className="w-4 h-4 text-indigo-500" />
+                <span>{t.voiceOn}</span>
+              </button>
+              <button
+                type="button"
+                id="settings-voice-off-btn"
+                onClick={() => {
+                  if (voiceEnabled && onToggleVoice) onToggleVoice();
+                  sounds.playClick();
+                }}
+                className={`flex items-center justify-center gap-2 p-3 rounded-2xl border font-medium text-sm transition-all ${
+                  !voiceEnabled
+                    ? 'bg-rose-500/10 border-rose-500 text-rose-600 dark:text-rose-400 ring-2 ring-rose-500/20'
+                    : isDarkMode
+                    ? 'border-slate-800 hover:bg-slate-800 text-slate-400'
+                    : 'border-slate-200 hover:bg-slate-100 text-slate-600'
+                }`}
+              >
+                <MicOff className="w-4 h-4 text-rose-500" />
+                <span>{t.voiceOff}</span>
+              </button>
+            </div>
+
+            {onToggleMuteOwnMoveVoice && (
+              <label
+                className={`flex items-start gap-2.5 p-3 rounded-2xl border cursor-pointer transition-colors ${
+                  muteOwnMoveVoice
+                    ? isDarkMode
+                      ? 'bg-indigo-500/10 border-indigo-500/30'
+                      : 'bg-indigo-50/80 border-indigo-200'
+                    : isDarkMode
+                    ? 'bg-slate-800/50 border-slate-700/70'
+                    : 'bg-slate-50 border-slate-200'
+                }`}
+              >
+                <input
+                  id="settings-mute-own-move-checkbox"
+                  type="checkbox"
+                  checked={muteOwnMoveVoice}
+                  onChange={() => {
+                    sounds.playClick();
+                    onToggleMuteOwnMoveVoice();
+                  }}
+                  className="mt-0.5 h-4 w-4 rounded accent-indigo-600"
+                />
+                <div className="text-left">
+                  <span className="text-xs font-bold block">{t.muteOwnMoveLabel}</span>
+                  <span
+                    className={`text-[10px] block leading-snug mt-0.5 ${
+                      isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                    }`}
+                  >
+                    {t.muteOwnMoveDesc}
+                  </span>
+                </div>
+              </label>
+            )}
           </div>
 
           <div className="space-y-2">

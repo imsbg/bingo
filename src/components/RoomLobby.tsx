@@ -203,6 +203,49 @@ export const RoomLobby: React.FC<RoomLobbyProps> = ({
                 </button>
               </div>
 
+              {/* Smart Play Checkbox for Solo vs Computer */}
+              <label
+                className={`flex items-start gap-2.5 p-2.5 rounded-2xl border cursor-pointer transition-colors ${
+                  smartPlay
+                    ? isDarkMode
+                      ? 'bg-indigo-500/15 border-indigo-500/40'
+                      : 'bg-indigo-50/90 border-indigo-300'
+                    : isDarkMode
+                    ? 'bg-slate-800/50 border-slate-700/70'
+                    : 'bg-slate-50 border-slate-200'
+                }`}
+              >
+                <input
+                  id="solo-smart-play-checkbox"
+                  type="checkbox"
+                  checked={smartPlay}
+                  onChange={(e) => {
+                    sounds.playClick();
+                    setSmartPlay(e.target.checked);
+                  }}
+                  className="mt-0.5 h-4 w-4 rounded accent-indigo-600"
+                />
+                <div className="text-left">
+                  <span className="text-xs font-bold flex items-center gap-1.5">
+                    <BrainCircuit
+                      className={`w-3.5 h-3.5 ${
+                        smartPlay
+                          ? 'text-indigo-600 dark:text-indigo-400'
+                          : 'text-slate-400'
+                      }`}
+                    />
+                    {t.smartPlayLabel}
+                  </span>
+                  <span
+                    className={`text-[10px] block leading-snug mt-0.5 ${
+                      isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                    }`}
+                  >
+                    {t.smartPlayDesc}
+                  </span>
+                </div>
+              </label>
+
               <button
                 type="button"
                 data-start="true"

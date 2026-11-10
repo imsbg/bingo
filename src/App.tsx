@@ -106,6 +106,10 @@ export default function App() {
   });
 
   const [soundEnabled, setSoundEnabled] = useState<boolean>(() => sounds.isEnabled());
+  const [voiceEnabled, setVoiceEnabled] = useState<boolean>(() => sounds.isVoiceEnabled());
+  const [muteOwnMoveVoice, setMuteOwnMoveVoice] = useState<boolean>(() =>
+    sounds.isMuteOwnMoveVoice()
+  );
 
   const [playerName, setPlayerName] = useState<string>(() => {
     try {
@@ -369,6 +373,18 @@ export default function App() {
     sounds.setEnabled(next);
   };
 
+  const handleToggleVoice = () => {
+    const next = !voiceEnabled;
+    setVoiceEnabled(next);
+    sounds.setVoiceEnabled(next);
+  };
+
+  const handleToggleMuteOwnMoveVoice = () => {
+    const next = !muteOwnMoveVoice;
+    setMuteOwnMoveVoice(next);
+    sounds.setMuteOwnMoveVoice(next);
+  };
+
   const handleUpdatePlayerName = (name: string) => {
     setPlayerName(name);
     try {
@@ -460,7 +476,8 @@ export default function App() {
     };
   }, []);
 
-  // Speak called number out loud in Odia ('or') or English ('en') whenever a new number is called
+  // Speak called number out loud in English whenever a new number is called
+  // By default (muteOwnMoveVoice = true), your own move is NOT announced on your own phone; only opponent moves are announced.
   useEffect(() => {
     if (!gameMode) {
       prevCalledRef.current = { round: 1, count: 0 };
@@ -476,12 +493,46 @@ export default function App() {
     if (gameState.calledNumbers.length > prevCalledRef.current.count) {
       const latestNum =
         gameState.calledNumbers[gameState.calledNumbers.length - 1];
-      prevCalledRef.current.count = gameState.calledNumbers.length;
-      if (latestNum) {
-        sounds.speakNumber(latestNum, langRef.current);
+      const latestMove =
+        gameState.currentRoundMoves.length > 0
+          ? gameState.currentRoundMoves[gameState.currentRoundMoves.length - 1]
+          : null;
+      prevCalledRef.current = {
+        round: gameState.round,
+        count: gameState.calledNumbers.length,
+      };
+
+      if (latestNum && voiceEnabled) {
+        const myCurrentMark: PlayerMark | null =
+          gameMode === 'solo-bot'
+            ? 'X'
+            : gameMode === 'multiplayer'
+            ? myRole === 'host'
+              ? 'X'
+              : myRole === 'guest'
+              ? 'O'
+              : null
+            : null;
+
+        const isOwnMove =
+          myCurrentMark !== null &&
+          latestMove !== null &&
+          latestMove.player === myCurrentMark;
+
+        if (!(muteOwnMoveVoice && isOwnMove)) {
+          sounds.speakNumber(latestNum, langRef.current);
+        }
       }
     }
-  }, [gameMode, gameState.round, gameState.calledNumbers]);
+  }, [
+    gameMode,
+    gameState.round,
+    gameState.calledNumbers,
+    gameState.currentRoundMoves,
+    myRole,
+    voiceEnabled,
+    muteOwnMoveVoice,
+  ]);
 
   // Win and Draw audio/confetti triggers
   useEffect(() => {
@@ -986,6 +1037,13 @@ export default function App() {
                     myPlayerLabel={playerNames[setupMark]}
                     opponentPlayerLabel={playerNames[opponentMark]}
                     isSpectator={false}
+                    smartPlay={Boolean(gameState.smartPlay)}
+                    onToggleSmartPlay={
+                      gameMode === 'solo-bot'
+                        ? (enabled) =>
+                            setGameState((prev) => ({ ...prev, smartPlay: enabled }))
+                        : undefined
+                    }
                     onConfirmGrid={handleConfirmSetupGrid}
                     currentLanguage={currentLanguage}
                     isDarkMode={isDarkMode}
@@ -1035,6 +1093,12 @@ export default function App() {
                     canMove={canMove}
                     status={gameState.status}
                     smartPlay={Boolean(gameState.smartPlay)}
+                    onToggleSmartPlay={
+                      gameMode === 'solo-bot'
+                        ? (enabled) =>
+                            setGameState((prev) => ({ ...prev, smartPlay: enabled }))
+                        : undefined
+                    }
                     playerNames={playerNames}
                     onCallNumber={handleCallNumber}
                     currentLanguage={currentLanguage}
@@ -1495,6 +1559,12 @@ export default function App() {
               currentRoundSeconds={currentRoundSeconds}
               currentRoundMoves={gameState.currentRoundMoves}
               roundHistory={gameState.roundHistory}
+              playerNames={playerNames}
+              currentProgress={gameState.progress}
+              myMark={myMark}
+              smartPlay={Boolean(gameState.smartPlay)}
+              isGameOver={gameState.status === 'won' || gameState.status === 'draw'}
+              isSpectator={myRole === 'spectator'}
               currentLanguage={currentLanguage}
               t={t}
               isDarkMode={isDarkMode}
@@ -1543,6 +1613,10 @@ export default function App() {
         onToggleTheme={() => setIsDarkMode(!isDarkMode)}
         soundEnabled={soundEnabled}
         onToggleSound={handleToggleSound}
+        voiceEnabled={voiceEnabled}
+        onToggleVoice={handleToggleVoice}
+        muteOwnMoveVoice={muteOwnMoveVoice}
+        onToggleMuteOwnMoveVoice={handleToggleMuteOwnMoveVoice}
         currentLanguage={currentLanguage}
         onSelectLanguage={handleSelectLanguage}
         playerName={playerName}

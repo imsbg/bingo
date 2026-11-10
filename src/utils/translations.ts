@@ -196,6 +196,13 @@ export interface Translations {
   guideColorsDesc: string;
   guideSpectatorTitle: string;
   guideSpectatorDesc: string;
+  // Voice Announcement Settings & Both Players History Progress
+  voiceAnnouncementLabel: string;
+  voiceOn: string;
+  voiceOff: string;
+  muteOwnMoveLabel: string;
+  muteOwnMoveDesc: string;
+  bothPlayersBingoProgress: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -389,6 +396,12 @@ export const translations: Record<Language, Translations> = {
     guideColorsDesc: 'Called boxes turn Red, and boxes that complete a 5-cell line turn Green. Inside those boxes, numbers called by Player 1 are colored Blue and numbers called by Player 2 are colored Orange/Amber, while the Last Called number glows with a golden ring.',
     guideSpectatorTitle: '4. Live Spectator Mode & Emoji Reactions',
     guideSpectatorDesc: 'Spectators can join any room code (SBXXXX) or Live Match to watch Player 1 (left) and Player 2 (right) boards side-by-side in real time and send cheering reactions from the right-side vertical panel.',
+    voiceAnnouncementLabel: 'Number Voice Announcement',
+    voiceOn: 'Voice On',
+    voiceOff: 'Voice Off',
+    muteOwnMoveLabel: 'Do not announce my own move on my phone',
+    muteOwnMoveDesc: 'Only your opponent’s called numbers will be spoken aloud on your phone',
+    bothPlayersBingoProgress: 'Both Players B-I-N-G-O Progress',
   },
   or: {
     appTitle: 'ବିଙ୍ଗୋ',
@@ -580,5 +593,11 @@ export const translations: Record<Language, Translations> = {
     guideColorsDesc: 'ଡକାଯାଇଥିବା ନମ୍ବରର ଘର ଲାଲ୍ ରଙ୍ଗ ହୁଏ ଏବଂ ଗୋଟିଏ ସମ୍ପୂର୍ଣ୍ଣ ଲାଇନ୍ ହେଲେ ସବୁଜ ରଙ୍ଗ ହୁଏ । ଖେଳାଳି ୧ ଡାକିଥିବା ନମ୍ବର ନୀଳ ରଙ୍ଗରେ ଏବଂ ଖେଳାଳି ୨ ଡାକିଥିବା ନମ୍ବର କମଳା ରଙ୍ଗରେ ଦେଖାଯାଏ । ଶେଷ ଡକାଯାଇଥିବା ନମ୍ବର ଚାରିପାଶରେ ହଳଦିଆ ରିଙ୍ଗ୍ ଦେଖାଯାଏ ।',
     guideSpectatorTitle: '୪. ଲାଇଭ୍ ଦର୍ଶକ ଏବଂ ଇମୋଜି ପ୍ରତିକ୍ରିୟା',
     guideSpectatorDesc: 'ଦର୍ଶକମାନେ ଯେକୌଣସି ରୁମ୍ ରେ ଯୋଗ ଦେଇ ଖେଳାଳି ୧ (ବାମ) ଏବଂ ଖେଳାଳି ୨ (ଡାହାଣ) ଙ୍କ ବୋର୍ଡକୁ ପାଖାପାଖି ଲାଇଭ୍ ଦେଖିପାରିବେ ଏବଂ ଡାହାଣ ପାର୍ଶ୍ୱରେ ଥିବା ଭର୍ଟିକାଲ୍ ପ୍ୟାନେଲରୁ ଇମୋଜି ପ୍ରତିକ୍ରିୟା ପଠାଇପାରିବେ ।',
+    voiceAnnouncementLabel: 'ନମ୍ବର ସ୍ୱର ଘୋଷଣା',
+    voiceOn: 'ସ୍ୱର ଚାଲୁ',
+    voiceOff: 'ସ୍ୱର ବନ୍ଦ',
+    muteOwnMoveLabel: 'ମୋ ଫୋନ୍ ରେ ମୋ ନିଜ ଚାଲ୍ ର ନମ୍ବର ଘୋଷଣା ବନ୍ଦ ରଖନ୍ତୁ',
+    muteOwnMoveDesc: 'କେବଳ ପ୍ରତିପକ୍ଷ ଡାକିଥିବା ନମ୍ବର ଆପଣଙ୍କ ଫୋନ୍ ରେ ଶୁଣାଯିବ',
+    bothPlayersBingoProgress: 'ଉଭୟ ଖେଳାଳିଙ୍କ B-I-N-G-O ପ୍ରଗତି',
   },
 };
