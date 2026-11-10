@@ -38,7 +38,7 @@ export const QrModal: React.FC<QrModalProps> = ({
       try {
         await navigator.share({
           title: `Play 1–25 Bingo in Room ${roomCode}`,
-          text: `Join my WebRTC Bingo room (${roomCode}) to play or spectate live!`,
+          text: `Join my Bingo room (${roomCode}) to play or spectate live!`,
           url: joinUrl,
         });
       } catch {}

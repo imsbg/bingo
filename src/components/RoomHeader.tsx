@@ -116,12 +116,14 @@ export const RoomHeader: React.FC<RoomHeaderProps> = ({
   };
 
   return (
-    <header
-      className={`w-full relative z-30 border-b transition-colors duration-200 ${
-        isDarkMode ? 'border-slate-800/80 bg-slate-950/80' : 'border-slate-200 bg-white/80'
-      } backdrop-blur-md`}
-    >
-      <div className="w-full max-w-6xl mx-auto flex items-center justify-between gap-2 py-2 sm:py-3 px-3 sm:px-6">
+    <header className="w-full sticky top-2.5 sm:top-3.5 z-30 px-2.5 sm:px-6 pt-2">
+      <div
+        className={`w-full max-w-6xl mx-auto flex items-center justify-between gap-2 py-2 sm:py-2.5 px-3 sm:px-5 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl backdrop-saturate-150 transition-all duration-200 ${
+          isDarkMode
+            ? 'border-white/15 bg-slate-900/75 shadow-[0_16px_36px_-8px_rgba(0,0,0,0.55),inset_0_1px_1px_rgba(255,255,255,0.12)]'
+            : 'border-white/85 bg-white/75 shadow-[0_14px_34px_-8px_rgba(79,70,229,0.14),0_4px_12px_-2px_rgba(15,23,42,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)]'
+        }`}
+      >
         {/* Left: Brand & Room Info */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 overflow-hidden">
           <button
@@ -405,11 +407,11 @@ export const RoomHeader: React.FC<RoomHeaderProps> = ({
         <div
           role="menu"
           aria-label={t.menuLabel}
-          className={`sm:hidden border-t px-4 py-3 space-y-2 shadow-2xl animate-fade-in ${
+          className={`sm:hidden mt-2 rounded-2xl border px-4 py-3 space-y-2 shadow-2xl animate-fade-in ${
             isDarkMode
-              ? 'bg-slate-900/95 border-slate-800 text-slate-100'
-              : 'bg-white/95 border-slate-200 text-slate-900'
-          } backdrop-blur-xl`}
+              ? 'bg-slate-900/90 border-white/15 text-slate-100'
+              : 'bg-white/90 border-white/85 text-slate-900'
+          } backdrop-blur-2xl backdrop-saturate-150`}
         >
           <div className="flex items-center justify-between px-3 py-2 rounded-xl border border-slate-800/40 bg-slate-500/5 text-xs">
             <span className="text-slate-400 font-semibold">{t.webrtcStatus}:</span>

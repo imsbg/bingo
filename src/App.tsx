@@ -247,14 +247,6 @@ export default function App() {
       if (canonicalEl) {
         canonicalEl.setAttribute('href', canonicalHref);
       }
-      const ogUrlEl = document.getElementById('og-url-meta');
-      if (ogUrlEl) {
-        ogUrlEl.setAttribute('content', canonicalHref);
-      }
-      const twUrlEl = document.getElementById('twitter-url-meta');
-      if (twUrlEl) {
-        twUrlEl.setAttribute('content', canonicalHref);
-      }
 
       if (!isBlogView) {
         const cleanPath = window.location.pathname.replace(/\/+$/, '');

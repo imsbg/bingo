@@ -133,8 +133,8 @@ export function buildFriendSharePayload(
 
   if (shareLang === 'or') {
     if (roomCode) {
-      const title = `ବିଙ୍ଗୋ (Bingo) – ରୁମ୍ ${roomCode} ରେ ମୋ ସହିତ ଖେଳନ୍ତୁ!`;
-      const text = `ଆସନ୍ତୁ ମୋ ସହିତ ଅନଲାଇନ୍ ୧–୨୫ ବିଙ୍ଗୋ (Bingo) ଖେଳିବା! ରୁମ୍ କୋଡ୍: ${roomCode} । ଖେଳିବା କିମ୍ବା ଲାଇଭ୍ ଦେଖିବା ପାଇଁ ଏହି ଲିଙ୍କ୍ ରେ କ୍ଲିକ୍ କରନ୍ତୁ:`;
+      const title = `ବିଙ୍ଗୋ – ରୁମ୍ ${roomCode} ରେ ମୋ ସହିତ ଖେଳନ୍ତୁ!`;
+      const text = `ଆସନ୍ତୁ ମୋ ସହିତ ଅନଲାଇନ୍ ୧–୨୫ ବିଙ୍ଗୋ ଖେଳିବା! ରୁମ୍ କୋଡ୍: ${roomCode} । ଖେଳିବା କିମ୍ବା ଲାଇଭ୍ ଦେଖିବା ପାଇଁ ଏହି ଲିଙ୍କ୍ ରେ କ୍ଲିକ୍ କରନ୍ତୁ:`;
       return {
         url,
         title,
@@ -142,7 +142,7 @@ export function buildFriendSharePayload(
         fullMessage: `${text}\n${url}`,
       };
     }
-    const title = 'ବିଙ୍ଗୋ (Bingo) – ମାଗଣା ଅନଲାଇନ୍ ଏବଂ ଏକାକୀ ଖେଳ';
+    const title = 'ବିଙ୍ଗୋ – ମାଗଣା ଅନଲାଇନ୍ ଏବଂ ଏକାକୀ ଖେଳ';
     const text = 'ଆସନ୍ତୁ ସାଙ୍ଗମାନଙ୍କ ସହିତ ଅନଲାଇନ୍ କିମ୍ବା ଏକାକୀ ୧–୨୫ ବିଙ୍ଗୋ ଖେଳିବା! ଏଠାରେ କ୍ଲିକ୍ କରନ୍ତୁ:';
     return {
       url,
