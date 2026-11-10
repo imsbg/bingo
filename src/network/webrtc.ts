@@ -195,6 +195,16 @@ export class WebRTCNetworkRoom {
     return this.state;
   }
 
+  public syncLocalState(nextState: GameState) {
+    if (this.isDestroyed) return;
+    this.recordActivity();
+    this.state = {
+      ...nextState,
+      spectators: this.state.spectators,
+    };
+    this.broadcastState();
+  }
+
   public setPublicLive(enabled: boolean) {
     this.isPublicLive = enabled;
     this.state.isPublicLive = enabled;
@@ -506,12 +516,16 @@ export class WebRTCNetworkRoom {
 
           const wantsToPlay = msg.role === 'player' || msg.role === 'guest';
           const currentO = this.state.players.O;
-          const isCurrentOConnOpen = currentO ? (this.connections.get(currentO.id)?.open ?? false) : false;
+          const isBotPlayerO = currentO?.id === 'bot-ai';
+          const isCurrentOConnOpen = currentO
+            ? isBotPlayerO || (this.connections.get(currentO.id)?.open ?? false)
+            : false;
           const isSlotOAvailable =
-            !currentO ||
-            currentO.id === msg.peerId ||
-            currentO.name === msg.name ||
-            !isCurrentOConnOpen;
+            !isBotPlayerO &&
+            (!currentO ||
+              currentO.id === msg.peerId ||
+              currentO.name === msg.name ||
+              !isCurrentOConnOpen);
 
           if (wantsToPlay && isSlotOAvailable) {
             assignedRole = 'guest';

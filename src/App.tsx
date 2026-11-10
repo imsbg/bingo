@@ -66,6 +66,7 @@ import {
   BingoGrid,
   PlayerMark,
   BINGO_LETTERS,
+  generateRoomCode,
   isValidRoomCode,
   normalizeRoomCode,
   generateRandomGrid,
@@ -107,9 +108,6 @@ export default function App() {
 
   const [soundEnabled, setSoundEnabled] = useState<boolean>(() => sounds.isEnabled());
   const [voiceEnabled, setVoiceEnabled] = useState<boolean>(() => sounds.isVoiceEnabled());
-  const [muteOwnMoveVoice, setMuteOwnMoveVoice] = useState<boolean>(() =>
-    sounds.isMuteOwnMoveVoice()
-  );
 
   const [playerName, setPlayerName] = useState<string>(() => {
     try {
@@ -379,12 +377,6 @@ export default function App() {
     sounds.setVoiceEnabled(next);
   };
 
-  const handleToggleMuteOwnMoveVoice = () => {
-    const next = !muteOwnMoveVoice;
-    setMuteOwnMoveVoice(next);
-    sounds.setMuteOwnMoveVoice(next);
-  };
-
   const handleUpdatePlayerName = (name: string) => {
     setPlayerName(name);
     try {
@@ -401,26 +393,28 @@ export default function App() {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // Start Solo vs Computer Game
+  // Start Solo vs Computer Game (also hosted over WebRTC with an SBXXXX room code so spectators can watch live!)
   const handleStartSolo = useCallback(
     (mode: 'pass' | 'bot', smartPlay: boolean = false, skipSetup: boolean = false) => {
       networkRoomRef.current?.destroy();
       networkRoomRef.current = null;
       setCurrentPage('home');
       setHostLeftRoom(false);
-      setCurrentRoomCode(null);
       setGameMode(mode === 'pass' ? 'solo-pass' : 'solo-bot');
       setMyRole('host');
 
+      const p1DisplayName = playerName.trim() || 'Player 1';
       const p2DisplayName = translations[langRef.current].computer;
 
       const now = Date.now();
       const gridX = generateRandomGrid();
       const gridO = generateRandomGrid();
+      const botRoomCode = mode === 'bot' ? generateRoomCode() : null;
+      setCurrentRoomCode(botRoomCode);
 
       prevCalledRef.current = { round: 1, count: 0 };
 
-      setGameState({
+      const initialState: GameState = {
         grids: { X: gridX, O: gridO },
         gridReady: {
           X: skipSetup,
@@ -437,8 +431,8 @@ export default function App() {
         round: 1,
         scores: { X: 0, O: 0, ties: 0 },
         players: {
-          X: { name: playerName.trim() || 'Player 1', role: 'host', mark: 'X', id: 'p1' },
-          O: { name: p2DisplayName, role: 'guest', mark: 'O', id: 'p2' },
+          X: { name: p1DisplayName, role: 'host', mark: 'X', id: 'p1' },
+          O: { name: p2DisplayName, role: 'guest', mark: 'O', id: 'bot-ai' },
         },
         spectators: [],
         rematchRequestedBy: null,
@@ -446,9 +440,34 @@ export default function App() {
         roundStartTime: now,
         currentRoundMoves: [],
         roundHistory: [],
-        isPublicLive: false,
+        isPublicLive: true,
         smartPlay,
-      });
+      };
+
+      setGameState(initialState);
+
+      if (mode === 'bot' && botRoomCode) {
+        const room = new WebRTCNetworkRoom(
+          botRoomCode,
+          'host',
+          p1DisplayName,
+          {
+            onStateChange: (netState) => {
+              setGameState((prev) => {
+                if (prev.spectators.length === netState.spectators.length) return prev;
+                return { ...prev, spectators: netState.spectators };
+              });
+            },
+            onConnectionStatusChange: (status) => setConnectionStatus(status),
+            onReactionReceived: (emoji, sender) => triggerFloatingReaction(emoji, sender),
+            onNotification: (msg) => showToast(msg),
+          },
+          true,
+          smartPlay
+        );
+        room.syncLocalState(initialState);
+        networkRoomRef.current = room;
+      }
     },
     [playerName]
   );
@@ -476,8 +495,15 @@ export default function App() {
     };
   }, []);
 
-  // Speak called number out loud in English whenever a new number is called
-  // By default (muteOwnMoveVoice = true), your own move is NOT announced on your own phone; only opponent moves are announced.
+  // Sync hosted Computer match state to WebRTC spectators & See Live Matches
+  useEffect(() => {
+    if (gameMode === 'solo-bot' && networkRoomRef.current) {
+      networkRoomRef.current.syncLocalState(gameState);
+    }
+  }, [gameMode, gameState]);
+
+  // Speak opponent's called number out loud in English whenever opponent calls a number
+  // Own move NEVER announces on own phone; only opponent moves announce (and can be turned off via voiceEnabled in Settings).
   useEffect(() => {
     if (!gameMode) {
       prevCalledRef.current = { round: 1, count: 0 };
@@ -519,7 +545,7 @@ export default function App() {
           latestMove !== null &&
           latestMove.player === myCurrentMark;
 
-        if (!(muteOwnMoveVoice && isOwnMove)) {
+        if (!isOwnMove) {
           sounds.speakNumber(latestNum, langRef.current);
         }
       }
@@ -531,7 +557,6 @@ export default function App() {
     gameState.currentRoundMoves,
     myRole,
     voiceEnabled,
-    muteOwnMoveVoice,
   ]);
 
   // Win and Draw audio/confetti triggers
@@ -1167,23 +1192,28 @@ export default function App() {
                         {gameMode === 'multiplayer' ? t.p2pRoomSubtitle : t.playSolo}
                       </span>
                       <h3
-                        className={`font-extrabold text-base text-indigo-600 dark:text-indigo-400 ${
-                          gameMode === 'multiplayer'
-                            ? 'font-mono tracking-wider'
-                            : 'font-sans tracking-normal'
-                        }`}
+                        className="font-extrabold text-base text-indigo-600 dark:text-indigo-400 font-mono tracking-wider flex items-center gap-2 flex-wrap"
                       >
-                        {gameMode === 'multiplayer'
-                          ? currentRoomCode
-                          : gameMode === 'solo-bot'
-                          ? t.vsComputer
-                          : t.passAndPlay}
+                        {gameMode === 'solo-bot' ? (
+                          <>
+                            <span className="font-sans tracking-normal">{t.vsComputer}</span>
+                            {currentRoomCode && (
+                              <span className="px-2 py-0.5 rounded-lg bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 text-xs font-mono font-black">
+                                {currentRoomCode}
+                              </span>
+                            )}
+                          </>
+                        ) : gameMode === 'multiplayer' ? (
+                          currentRoomCode
+                        ) : (
+                          t.passAndPlay
+                        )}
                       </h3>
                     </div>
                   </div>
 
-                  {/* Share controls if Multiplayer */}
-                  {gameMode === 'multiplayer' && (
+                  {/* Share controls for Multiplayer & Hosted Computer Matches */}
+                  {currentRoomCode && (
                     <div className="flex items-center gap-1.5">
                       <button
                         type="button"
@@ -1526,8 +1556,8 @@ export default function App() {
                   </div>
                 )}
 
-                {/* Send Reaction Section (Placed in the Right Side Column for Players; Spectators use the vertical right-side reaction panel) */}
-                {myRole !== 'spectator' && (
+                {/* Send Reaction Section (Placed in the Right Side Column for Online Multiplayer Players; hidden in Play vs Computer) */}
+                {myRole !== 'spectator' && gameMode !== 'solo-bot' && (
                   <div className="flex justify-center w-full">
                     <ReactionFloater
                       onSendReaction={handleSendReaction}
@@ -1615,8 +1645,6 @@ export default function App() {
         onToggleSound={handleToggleSound}
         voiceEnabled={voiceEnabled}
         onToggleVoice={handleToggleVoice}
-        muteOwnMoveVoice={muteOwnMoveVoice}
-        onToggleMuteOwnMoveVoice={handleToggleMuteOwnMoveVoice}
         currentLanguage={currentLanguage}
         onSelectLanguage={handleSelectLanguage}
         playerName={playerName}

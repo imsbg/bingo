@@ -25,8 +25,6 @@ interface SettingsModalProps {
   onToggleSound: () => void;
   voiceEnabled?: boolean;
   onToggleVoice?: () => void;
-  muteOwnMoveVoice?: boolean;
-  onToggleMuteOwnMoveVoice?: () => void;
   currentLanguage: Language;
   onSelectLanguage: (lang: Language) => void;
   playerName: string;
@@ -43,8 +41,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onToggleSound,
   voiceEnabled = true,
   onToggleVoice,
-  muteOwnMoveVoice = true,
-  onToggleMuteOwnMoveVoice,
   currentLanguage,
   onSelectLanguage,
   playerName,
@@ -281,41 +277,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 <span>{t.voiceOff}</span>
               </button>
             </div>
-
-            {onToggleMuteOwnMoveVoice && (
-              <label
-                className={`flex items-start gap-2.5 p-3 rounded-2xl border cursor-pointer transition-colors ${
-                  muteOwnMoveVoice
-                    ? isDarkMode
-                      ? 'bg-indigo-500/10 border-indigo-500/30'
-                      : 'bg-indigo-50/80 border-indigo-200'
-                    : isDarkMode
-                    ? 'bg-slate-800/50 border-slate-700/70'
-                    : 'bg-slate-50 border-slate-200'
-                }`}
-              >
-                <input
-                  id="settings-mute-own-move-checkbox"
-                  type="checkbox"
-                  checked={muteOwnMoveVoice}
-                  onChange={() => {
-                    sounds.playClick();
-                    onToggleMuteOwnMoveVoice();
-                  }}
-                  className="mt-0.5 h-4 w-4 rounded accent-indigo-600"
-                />
-                <div className="text-left">
-                  <span className="text-xs font-bold block">{t.muteOwnMoveLabel}</span>
-                  <span
-                    className={`text-[10px] block leading-snug mt-0.5 ${
-                      isDarkMode ? 'text-slate-400' : 'text-slate-600'
-                    }`}
-                  >
-                    {t.muteOwnMoveDesc}
-                  </span>
-                </div>
-              </label>
-            )}
           </div>
 
           <div className="space-y-2">
