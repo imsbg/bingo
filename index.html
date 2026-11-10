@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-blog-lang="or" data-blog-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,7 +33,8 @@
             var file = String((event && event.filename) || '');
             if (
               file.indexOf('chrome-extension://') === 0 ||
-              msg.indexOf('Cannot set property fetch') !== -1
+              msg.indexOf('Cannot set property fetch') !== -1 ||
+              (window.__IS_GITHUB_BLOG_VIEW__ && file.indexOf('.tsx') !== -1)
             ) {
               event.stopImmediatePropagation();
               event.preventDefault();
@@ -58,27 +59,58 @@
         );
       })();
     </script>
+
     <title>Bingo Game - Popular Indian 1 to 25 Bingo</title>
-    <meta name="description" content="Bingo Game - Popular Indian 1 to 25 Bingo by Sandeep Biswal G. Read the complete guide on Smart Play, 2-color numbers, WebRTC rooms (SBXXXX), and play live on DesiBingo!" />
-    <meta name="keywords" content="Bingo Game, Popular Indian 1 to 25 Bingo, 1 to 25 bingo online, desi bingo, odia bingo, ବିଙ୍ଗୋ, smart play bingo, multiplayer bingo game, webrtc bingo room code sbxxxx, Sandeep Biswal G, imsbg github io bingo" />
+    <meta
+      name="description"
+      content="Bingo Game - Popular Indian 1 to 25 Bingo by Sandeep Biswal G. Read the complete guide on Smart Play, 2-color player numbers, WebRTC rooms (SBXXXX), and play live on DesiBingo!"
+    />
+    <meta
+      name="keywords"
+      content="Bingo Game, Popular Indian 1 to 25 Bingo, 1 to 25 bingo online, desi bingo, odia bingo, ବିଙ୍ଗୋ, smart play bingo, multiplayer bingo game, webrtc bingo room code sbxxxx, Sandeep Biswal G, imsbg github io bingo"
+    />
     <meta name="author" content="Sandeep Biswal G" />
     <meta name="creator" content="Sandeep Biswal G" />
     <meta name="publisher" content="Sandeep Biswal G" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta
+      name="googlebot"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
     <meta name="theme-color" content="#4F46E5" />
 
     <!-- Canonical & Hreflang Links (Default configured for https://imsbg.github.io/bingo/ and dynamically synced for https://desibingo.netlify.app/) -->
     <link rel="canonical" id="canonical-link" href="https://imsbg.github.io/bingo/" />
-    <link rel="alternate" hreflang="x-default" id="hreflang-default" href="https://imsbg.github.io/bingo/" />
-    <link rel="alternate" hreflang="en" id="hreflang-en" href="https://imsbg.github.io/bingo/?lang=en" />
-    <link rel="alternate" hreflang="or" id="hreflang-or" href="https://imsbg.github.io/bingo/?lang=or" />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      id="hreflang-default"
+      href="https://imsbg.github.io/bingo/"
+    />
+    <link
+      rel="alternate"
+      hreflang="en"
+      id="hreflang-en"
+      href="https://imsbg.github.io/bingo/?lang=en"
+    />
+    <link
+      rel="alternate"
+      hreflang="or"
+      id="hreflang-or"
+      href="https://imsbg.github.io/bingo/?lang=or"
+    />
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="article" id="og-type-meta" />
     <meta property="og:url" id="og-url-meta" content="https://imsbg.github.io/bingo/" />
     <meta property="og:title" content="Bingo Game - Popular Indian 1 to 25 Bingo" />
-    <meta property="og:description" content="Bingo Game - Popular Indian 1 to 25 Bingo by Sandeep Biswal G. Explore rules, Smart Play mini-map, 2-color player numbers, spectator view, and play online for free!" />
+    <meta
+      property="og:description"
+      content="Bingo Game - Popular Indian 1 to 25 Bingo by Sandeep Biswal G. Explore rules, Smart Play mini-map, 2-color player numbers, spectator view, and play online for free!"
+    />
     <meta property="og:site_name" content="Bingo Game - Popular Indian 1 to 25 Bingo" />
     <meta property="og:locale" content="en_IN" />
     <meta property="og:locale:alternate" content="or_IN" />
@@ -88,10 +120,653 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" id="twitter-url-meta" content="https://imsbg.github.io/bingo/" />
     <meta name="twitter:title" content="Bingo Game - Popular Indian 1 to 25 Bingo" />
-    <meta name="twitter:description" content="Bingo Game - Popular Indian 1 to 25 Bingo by Sandeep Biswal G. Read the full feature guide or play live multiplayer 1-25 Bingo online!" />
+    <meta
+      name="twitter:description"
+      content="Bingo Game - Popular Indian 1 to 25 Bingo by Sandeep Biswal G. Read the full feature guide or play live multiplayer 1-25 Bingo online!"
+    />
     <meta name="twitter:creator" content="Sandeep Biswal G" />
 
-    <!-- Host-Aware Canonical Synchronization Script (imsbg.github.io/bingo/ vs desibingo.netlify.app) -->
+    <!-- Google Fonts: Plus Jakarta Sans, Outfit, JetBrains Mono & Noto Sans Oriya -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+Oriya:wght@400;600;700;800&family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bingo 5x5 Web Icon -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Crect width='32' height='32' rx='8' fill='%234F46E5'/%3E%3Crect x='5' y='5' width='9' height='9' rx='2.5' fill='%2310B981'/%3E%3Crect x='18' y='5' width='9' height='9' rx='2.5' fill='%23F43F5E'/%3E%3Crect x='5' y='18' width='9' height='9' rx='2.5' fill='%23F59E0B'/%3E%3Crect x='18' y='18' width='9' height='9' rx='2.5' fill='%2338BDF8'/%3E%3Cpath d='M5 5L27 27' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E"
+    />
+
+    <!-- Schema.org Structured Data (BlogPosting for imsbg.github.io/bingo/, VideoGame for desibingo.netlify.app, and FAQPage) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://imsbg.github.io/bingo/#website",
+            "url": "https://imsbg.github.io/bingo/",
+            "name": "Bingo Game - Popular Indian 1 to 25 Bingo",
+            "alternateName": ["Desi Bingo", "Indian 1 to 25 Bingo", "ବିଙ୍ଗୋ", "Odia Bingo 1-25"],
+            "inLanguage": ["en", "or"],
+            "author": {
+              "@type": "Person",
+              "name": "Sandeep Biswal G",
+              "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
+            },
+            "publisher": {
+              "@type": "Person",
+              "name": "Sandeep Biswal G",
+              "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
+            }
+          },
+          {
+            "@type": "BlogPosting",
+            "@id": "https://imsbg.github.io/bingo/#article",
+            "mainEntityOfPage": "https://imsbg.github.io/bingo/",
+            "headline": "Bingo Game - Popular Indian 1 to 25 Bingo",
+            "name": "Bingo Game - Popular Indian 1 to 25 Bingo",
+            "description": "Complete guide and feature overview of Bingo Game - Popular Indian 1 to 25 Bingo (ବିଙ୍ଗୋ) by Sandeep Biswal G, including Smart Play mini-map, Secret Mode, 2-color player numbers, WebRTC rooms, and Spectator mode.",
+            "url": "https://imsbg.github.io/bingo/",
+            "inLanguage": ["en", "or"],
+            "author": {
+              "@type": "Person",
+              "name": "Sandeep Biswal G",
+              "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
+            },
+            "publisher": {
+              "@type": "Person",
+              "name": "Sandeep Biswal G",
+              "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
+            },
+            "about": {
+              "@id": "https://desibingo.netlify.app/#game"
+            }
+          },
+          {
+            "@type": ["VideoGame", "WebApplication"],
+            "@id": "https://desibingo.netlify.app/#game",
+            "name": "Bingo Game - Popular Indian 1 to 25 Bingo",
+            "alternateName": ["1 to 25 Bingo Game", "Desi Bingo", "ବିଙ୍ଗୋ", "Indian School Bingo 1-25"],
+            "url": "https://desibingo.netlify.app/",
+            "sameAs": ["https://imsbg.github.io/bingo/"],
+            "inLanguage": ["en", "or"],
+            "applicationCategory": "GameApplication",
+            "genre": ["Board Game", "Number Puzzle", "Multiplayer Game"],
+            "operatingSystem": "All",
+            "browserRequirements": "Requires JavaScript and WebRTC support",
+            "playMode": ["MultiPlayer", "SinglePlayer"],
+            "numberOfPlayers": {
+              "@type": "QuantitativeValue",
+              "minValue": 1,
+              "maxValue": 2
+            },
+            "description": "Play the popular Indian 1 to 25 Bingo Game (ବିଙ୍ଗୋ) online for free! Create WebRTC multiplayer rooms (SBXXXX), enable Smart Play, watch live, or play vs AI.",
+            "author": {
+              "@type": "Person",
+              "name": "Sandeep Biswal G",
+              "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "INR",
+              "availability": "https://schema.org/InStock"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://imsbg.github.io/bingo/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How do you play the Indian 1 to 25 Bingo Game?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Each player arranges numbers 1 to 25 on a 5x5 grid. Players take turns calling any uncalled number, which is crossed out on both boards simultaneously. The first player to complete 5 full lines (horizontal, vertical, or diagonal) spells B-I-N-G-O and wins."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is Smart Play in 1 to 25 Bingo?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "When Smart Play is OFF (default Secret Mode), your opponent's board and B-I-N-G-O line progress stay hidden until someone wins, after which both boards are revealed side-by-side. When Smart Play is ON, both players see a live 5x5 mini-map of the opponent's board without numbers (showing red called cells and green completed-line cells) plus live B-I-N-G-O letter progress."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Where can I play Bingo Game - Popular Indian 1 to 25 Bingo online?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "You can play the full real-time WebRTC multiplayer and solo AI game at https://desibingo.netlify.app/ and read the official feature and strategy blog at https://imsbg.github.io/bingo/."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <!-- Pure CSS for the GitHub Pages Standalone HTML/CSS/JS Blog View (No TypeScript or Bundler Needed) -->
+    <style id="pure-blog-styles">
+      :root {
+        --sb-bg: #f8fafc;
+        --sb-bg-grad: linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #f0fdfa 100%);
+        --sb-card: #ffffff;
+        --sb-card-alt: #f8fafc;
+        --sb-text: #0f172a;
+        --sb-muted: #475569;
+        --sb-border: #e2e8f0;
+        --sb-header-bg: rgba(255, 255, 255, 0.92);
+        --sb-indigo: #4f46e5;
+        --sb-indigo-soft: #eef2ff;
+        --sb-emerald: #059669;
+        --sb-emerald-soft: #ecfdf5;
+        --sb-rose: #e11d48;
+        --sb-rose-soft: #fff1f2;
+        --sb-amber: #d97706;
+        --sb-amber-soft: #fffbeb;
+        --sb-blue: #1d4ed8;
+        --sb-orange: #ea580c;
+        --sb-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+      }
+
+      html[data-blog-theme='dark'] {
+        --sb-bg: #020617;
+        --sb-bg-grad: linear-gradient(135deg, #020617 0%, #0f172a 55%, #020617 100%);
+        --sb-card: #0f172a;
+        --sb-card-alt: #1e293b;
+        --sb-text: #f8fafc;
+        --sb-muted: #94a3b8;
+        --sb-border: #1e293b;
+        --sb-header-bg: rgba(15, 23, 42, 0.92);
+        --sb-indigo: #818cf8;
+        --sb-indigo-soft: rgba(99, 102, 241, 0.14);
+        --sb-emerald: #34d399;
+        --sb-emerald-soft: rgba(16, 185, 129, 0.14);
+        --sb-rose: #fb7185;
+        --sb-rose-soft: rgba(244, 63, 94, 0.14);
+        --sb-amber: #fbbf24;
+        --sb-amber-soft: rgba(245, 158, 11, 0.14);
+        --sb-blue: #1d4ed8;
+        --sb-orange: #ea580c;
+        --sb-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.45);
+      }
+
+      html[data-blog-lang='en'] .sb-lang-or {
+        display: none !important;
+      }
+      html[data-blog-lang='or'] .sb-lang-en {
+        display: none !important;
+      }
+
+      #github-seo-blog-static {
+        min-height: 100vh;
+        background: var(--sb-bg-grad);
+        color: var(--sb-text);
+        font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', system-ui, -apple-system, sans-serif;
+        line-height: 1.65;
+        margin: 0;
+        padding: 0 0 3.5rem 0;
+        box-sizing: border-box;
+      }
+
+      #github-seo-blog-static *,
+      #github-seo-blog-static *::before,
+      #github-seo-blog-static *::after {
+        box-sizing: border-box;
+      }
+
+      .sb-blog-header {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: var(--sb-header-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--sb-border);
+      }
+
+      .sb-blog-header-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0.65rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+      }
+
+      .sb-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        text-decoration: none;
+        color: inherit;
+        min-width: 0;
+      }
+
+      .sb-logo-box {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        background: linear-gradient(135deg, #4f46e5, #7c3aed, #10b981);
+        padding: 5px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3px;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+      }
+
+      .sb-logo-box span {
+        border-radius: 3px;
+        font-size: 9px;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        color: #0f172a;
+      }
+
+      .sb-brand-title {
+        font-weight: 800;
+        font-size: 0.95rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .sb-brand-sub {
+        font-size: 0.7rem;
+        color: var(--sb-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .sb-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        flex-shrink: 0;
+      }
+
+      .sb-btn-outline {
+        border: 1px solid var(--sb-border);
+        background: var(--sb-card);
+        color: var(--sb-text);
+        padding: 0.42rem 0.75rem;
+        border-radius: 11px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        transition: all 0.15s ease;
+        font-family: inherit;
+      }
+
+      .sb-btn-outline:hover {
+        border-color: var(--sb-indigo);
+      }
+
+      .sb-btn-primary {
+        background: linear-gradient(135deg, #4f46e5, #7c3aed, #059669);
+        color: #ffffff !important;
+        text-decoration: none;
+        padding: 0.48rem 0.9rem;
+        border-radius: 11px;
+        font-size: 0.76rem;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28);
+        transition: transform 0.15s ease;
+      }
+
+      .sb-btn-primary:hover {
+        transform: translateY(-1px);
+      }
+
+      .sb-container {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 1.5rem 1rem;
+      }
+
+      .sb-card {
+        background: var(--sb-card);
+        border: 1px solid var(--sb-border);
+        border-radius: 24px;
+        padding: 1.5rem;
+        box-shadow: var(--sb-shadow);
+        margin-bottom: 1.5rem;
+      }
+
+      @media (min-width: 640px) {
+        .sb-card {
+          padding: 2.1rem;
+        }
+      }
+
+      .sb-badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 0.9rem;
+      }
+
+      .sb-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.28rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .sb-badge-indigo {
+        background: #4f46e5;
+        color: #ffffff;
+      }
+
+      .sb-badge-emerald {
+        background: var(--sb-emerald-soft);
+        color: var(--sb-emerald);
+        border: 1px solid rgba(16, 185, 129, 0.25);
+      }
+
+      .sb-h1 {
+        font-family: 'Outfit', 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif;
+        font-size: clamp(1.65rem, 4vw, 2.75rem);
+        font-weight: 900;
+        line-height: 1.15;
+        margin: 0 0 0.85rem 0;
+        letter-spacing: -0.02em;
+      }
+
+      .sb-h2 {
+        font-family: 'Outfit', 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif;
+        font-size: clamp(1.2rem, 2.5vw, 1.55rem);
+        font-weight: 800;
+        margin: 0 0 0.65rem 0;
+        line-height: 1.25;
+      }
+
+      .sb-lead {
+        font-size: 0.96rem;
+        color: var(--sb-muted);
+        margin: 0 0 1.35rem 0;
+        max-width: 780px;
+      }
+
+      .sb-cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-bottom: 1.4rem;
+      }
+
+      .sb-cta-large {
+        background: linear-gradient(135deg, #4f46e5, #6366f1);
+        color: #ffffff !important;
+        text-decoration: none;
+        padding: 0.78rem 1.25rem;
+        border-radius: 14px;
+        font-size: 0.85rem;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        box-shadow: 0 8px 20px -4px rgba(79, 70, 229, 0.38);
+      }
+
+      .sb-cta-secondary {
+        background: var(--sb-card-alt);
+        color: var(--sb-text) !important;
+        border: 1px solid var(--sb-border);
+        text-decoration: none;
+        padding: 0.75rem 1.05rem;
+        border-radius: 14px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .sb-meta-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        padding-top: 1.1rem;
+        border-top: 1px solid var(--sb-border);
+        font-size: 0.78rem;
+      }
+
+      @media (min-width: 768px) {
+        .sb-meta-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      .sb-meta-label {
+        display: block;
+        font-size: 0.65rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--sb-muted);
+      }
+
+      .sb-board-showcase {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        align-items: center;
+      }
+
+      @media (min-width: 900px) {
+        .sb-board-showcase {
+          grid-template-columns: 1.45fr 1fr;
+        }
+      }
+
+      .sb-legend-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        margin-top: 1rem;
+      }
+
+      @media (min-width: 580px) {
+        .sb-legend-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .sb-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        padding: 0.7rem;
+        border-radius: 14px;
+        border: 1px solid var(--sb-border);
+        background: var(--sb-card-alt);
+        font-size: 0.78rem;
+      }
+
+      .sb-demo-card {
+        background: var(--sb-card-alt);
+        border: 1px solid var(--sb-border);
+        border-radius: 20px;
+        padding: 1.1rem;
+      }
+
+      .sb-demo-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.42rem;
+        margin: 0.75rem 0;
+      }
+
+      .sb-demo-cell {
+        aspect-ratio: 1 / 1;
+        border-radius: 12px;
+        border: 1px solid var(--sb-border);
+        background: var(--sb-card);
+        color: var(--sb-text);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 800;
+        font-size: 0.85rem;
+        cursor: pointer;
+        position: relative;
+        user-select: none;
+        transition: transform 0.12s ease;
+      }
+
+      .sb-demo-cell:hover {
+        transform: scale(1.04);
+      }
+
+      .sb-demo-cell.is-green {
+        background: #059669;
+        border-color: #10b981;
+      }
+
+      .sb-demo-cell.is-red {
+        background: #e11d48;
+        border-color: #f43f5e;
+      }
+
+      .sb-demo-cell.is-last {
+        box-shadow: 0 0 0 3px #facc15;
+        z-index: 2;
+      }
+
+      .sb-num-pill {
+        background: #ffffff;
+        padding: 2px 6px;
+        border-radius: 6px;
+        font-size: 0.78rem;
+        font-weight: 900;
+        line-height: 1.1;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+      }
+
+      .sb-num-pill.p1 {
+        color: #1d4ed8;
+        border-bottom: 2px solid #2563eb;
+      }
+
+      .sb-num-pill.p2 {
+        color: #ea580c;
+        border-bottom: 2px solid #f97316;
+      }
+
+      .sb-two-col {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+      }
+
+      @media (min-width: 768px) {
+        .sb-two-col {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .sb-feature-card {
+        background: var(--sb-card);
+        border: 1px solid var(--sb-border);
+        border-radius: 22px;
+        padding: 1.4rem;
+        box-shadow: var(--sb-shadow);
+      }
+
+      .sb-feature-card ul {
+        margin: 0.5rem 0 0 0;
+        padding-left: 1.15rem;
+        color: var(--sb-muted);
+        font-size: 0.88rem;
+      }
+
+      .sb-feature-card li {
+        margin-bottom: 0.45rem;
+      }
+
+      .sb-table-wrap {
+        overflow-x: auto;
+      }
+
+      .sb-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+      }
+
+      .sb-table th,
+      .sb-table td {
+        padding: 0.75rem 0.65rem;
+        text-align: left;
+        border-bottom: 1px solid var(--sb-border);
+      }
+
+      .sb-faq-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+      }
+
+      @media (min-width: 768px) {
+        .sb-faq-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .sb-faq-item {
+        background: var(--sb-card-alt);
+        border: 1px solid var(--sb-border);
+        border-radius: 16px;
+        padding: 1.05rem;
+      }
+
+      .sb-faq-item h3 {
+        margin: 0 0 0.35rem 0;
+        font-size: 0.92rem;
+        font-weight: 800;
+      }
+
+      .sb-faq-item p {
+        margin: 0;
+        font-size: 0.82rem;
+        color: var(--sb-muted);
+      }
+
+      .sb-link {
+        color: var(--sb-indigo);
+        font-weight: 700;
+        text-decoration: underline;
+      }
+    </style>
+
+    <!-- Pure Vanilla JS Controller for Host Detection, Canonical Sync, Language Toggle & Theme Toggle -->
     <script>
       (function () {
         try {
@@ -100,11 +775,15 @@
           var search = window.location.search || '';
           var params = new URLSearchParams(search);
           var viewParam = params.get('view');
+          var roomParam = params.get('room');
 
           var isGithubBlog =
             viewParam === 'blog' ||
-            (viewParam !== 'game' &&
-              (host.indexOf('github.io') !== -1 || path.indexOf('/bingo') === 0));
+            (!roomParam &&
+              viewParam !== 'game' &&
+              (host.indexOf('github.io') !== -1 || path === '/bingo' || path.indexOf('/bingo/') === 0));
+
+          window.__IS_GITHUB_BLOG_VIEW__ = isGithubBlog;
 
           var canonicalHref = isGithubBlog
             ? 'https://imsbg.github.io/bingo/'
@@ -130,139 +809,794 @@
             if (hrefEn) hrefEn.setAttribute('href', 'https://desibingo.netlify.app/en');
             if (hrefOr) hrefOr.setAttribute('href', 'https://desibingo.netlify.app/odia');
           }
+
+          // Initialize blog language & theme from URL / localStorage
+          var langParam = (params.get('lang') || '').toLowerCase();
+          var savedLang = localStorage.getItem('sb_bingo_lang') || 'or';
+          var initialLang =
+            langParam === 'en' || path.indexOf('/en') !== -1
+              ? 'en'
+              : langParam === 'or' || langParam === 'odia' || path.indexOf('/odia') !== -1
+              ? 'or'
+              : savedLang === 'en'
+              ? 'en'
+              : 'or';
+          document.documentElement.setAttribute('data-blog-lang', initialLang);
+          document.documentElement.lang = initialLang;
+
+          var savedTheme = localStorage.getItem('sb_bingo_theme_v2') || 'light';
+          document.documentElement.setAttribute(
+            'data-blog-theme',
+            savedTheme === 'dark' ? 'dark' : 'light'
+          );
         } catch (_e) {}
-      })();
-    </script>
 
-    <!-- Google Fonts: Plus Jakarta Sans, Outfit, JetBrains Mono & Noto Sans Oriya -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+Oriya:wght@400;600;700;800&family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+        window.toggleSbBlogLang = function () {
+          var current = document.documentElement.getAttribute('data-blog-lang') || 'or';
+          var next = current === 'or' ? 'en' : 'or';
+          document.documentElement.setAttribute('data-blog-lang', next);
+          document.documentElement.lang = next;
+          try {
+            localStorage.setItem('sb_bingo_lang', next);
+          } catch (_e) {}
+        };
 
-    <!-- Bingo 5x5 Web Icon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Crect width='32' height='32' rx='8' fill='%234F46E5'/%3E%3Crect x='5' y='5' width='9' height='9' rx='2.5' fill='%2310B981'/%3E%3Crect x='18' y='5' width='9' height='9' rx='2.5' fill='%23F43F5E'/%3E%3Crect x='5' y='18' width='9' height='9' rx='2.5' fill='%23F59E0B'/%3E%3Crect x='18' y='18' width='9' height='9' rx='2.5' fill='%2338BDF8'/%3E%3Cpath d='M5 5L27 27' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
+        window.toggleSbBlogTheme = function () {
+          var current = document.documentElement.getAttribute('data-blog-theme') || 'light';
+          var next = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-blog-theme', next);
+          try {
+            localStorage.setItem('sb_bingo_theme_v2', next);
+          } catch (_e) {}
+        };
 
-    <!-- Schema.org Structured Data (BlogPosting for imsbg.github.io/bingo/, VideoGame for desibingo.netlify.app, and FAQPage) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebSite",
-          "@id": "https://imsbg.github.io/bingo/#website",
-          "url": "https://imsbg.github.io/bingo/",
-          "name": "Bingo Game - Popular Indian 1 to 25 Bingo",
-          "alternateName": ["Desi Bingo", "Indian 1 to 25 Bingo", "ବିଙ୍ଗୋ", "Odia Bingo 1-25"],
-          "inLanguage": ["en", "or"],
-          "author": {
-            "@type": "Person",
-            "name": "Sandeep Biswal G",
-            "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
-          },
-          "publisher": {
-            "@type": "Person",
-            "name": "Sandeep Biswal G",
-            "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
-          }
-        },
-        {
-          "@type": "BlogPosting",
-          "@id": "https://imsbg.github.io/bingo/#article",
-          "mainEntityOfPage": "https://imsbg.github.io/bingo/",
-          "headline": "Bingo Game - Popular Indian 1 to 25 Bingo",
-          "name": "Bingo Game - Popular Indian 1 to 25 Bingo",
-          "description": "Complete guide and feature overview of Bingo Game - Popular Indian 1 to 25 Bingo (ବିଙ୍ଗୋ) by Sandeep Biswal G, including Smart Play mini-map, Secret Mode, 2-color player numbers, WebRTC rooms, and Spectator mode.",
-          "url": "https://imsbg.github.io/bingo/",
-          "inLanguage": ["en", "or"],
-          "author": {
-            "@type": "Person",
-            "name": "Sandeep Biswal G",
-            "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
-          },
-          "publisher": {
-            "@type": "Person",
-            "name": "Sandeep Biswal G",
-            "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
-          },
-          "about": {
-            "@id": "https://desibingo.netlify.app/#game"
-          }
-        },
-        {
-          "@type": ["VideoGame", "WebApplication"],
-          "@id": "https://desibingo.netlify.app/#game",
-          "name": "Bingo Game - Popular Indian 1 to 25 Bingo",
-          "alternateName": ["1 to 25 Bingo Game", "Desi Bingo", "ବିଙ୍ଗୋ", "Indian School Bingo 1-25"],
-          "url": "https://desibingo.netlify.app/",
-          "sameAs": ["https://imsbg.github.io/bingo/"],
-          "inLanguage": ["en", "or"],
-          "applicationCategory": "GameApplication",
-          "genre": ["Board Game", "Number Puzzle", "Multiplayer Game"],
-          "operatingSystem": "All",
-          "browserRequirements": "Requires JavaScript and WebRTC support",
-          "playMode": ["MultiPlayer", "SinglePlayer"],
-          "numberOfPlayers": {
-            "@type": "QuantitativeValue",
-            "minValue": 1,
-            "maxValue": 2
-          },
-          "description": "Play the popular Indian 1 to 25 Bingo Game (ବିଙ୍ଗୋ) online for free! Create WebRTC multiplayer rooms (SBXXXX), enable Smart Play, watch live, or play vs AI.",
-          "author": {
-            "@type": "Person",
-            "name": "Sandeep Biswal G",
-            "url": "https://play.google.com/store/apps/dev?id=6501689567504406715"
-          },
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "INR",
-            "availability": "https://schema.org/InStock"
-          }
-        },
-        {
-          "@type": "FAQPage",
-          "@id": "https://imsbg.github.io/bingo/#faq",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "How do you play the Indian 1 to 25 Bingo Game?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Each player arranges numbers 1 to 25 on a 5x5 grid. Players take turns calling any uncalled number, which is crossed out on both boards simultaneously. The first player to complete 5 full lines (horizontal, vertical, or diagonal) spells B-I-N-G-O and wins."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "What is Smart Play in 1 to 25 Bingo?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "When Smart Play is OFF (default Secret Mode), your opponent's board and B-I-N-G-O line progress stay hidden until someone wins, after which both boards are revealed side-by-side. When Smart Play is ON, both players see a live 5x5 mini-map of the opponent's board without numbers (showing red called cells and green completed-line cells) plus live B-I-N-G-O letter progress."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Where can I play Bingo Game - Popular Indian 1 to 25 Bingo online?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "You can play the full real-time WebRTC multiplayer and solo AI game at https://desibingo.netlify.app/ and read the official feature and strategy blog at https://imsbg.github.io/bingo/."
-              }
+        window.demoCallCell = function (el, num) {
+          try {
+            var allCells = document.querySelectorAll('.sb-demo-cell');
+            for (var i = 0; i < allCells.length; i++) {
+              allCells[i].classList.remove('is-last');
             }
-          ]
-        }
-      ]
-    }
+            if (el) {
+              if (!el.classList.contains('is-green') && !el.classList.contains('is-red')) {
+                el.classList.add('is-red');
+                el.innerHTML = '<span class="sb-num-pill p1">' + num + '</span>';
+              }
+              el.classList.add('is-last');
+            }
+            if ('speechSynthesis' in window) {
+              window.speechSynthesis.cancel();
+              var u = new SpeechSynthesisUtterance(String(num));
+              u.lang = 'en-IN';
+              u.rate = 1.0;
+              window.speechSynthesis.speak(u);
+            }
+          } catch (_e) {}
+        };
+      })();
     </script>
   </head>
   <body class="antialiased selection:bg-indigo-500 selection:text-white">
-    <div id="root"></div>
-    <noscript>
-      <article style="max-width: 800px; margin: 2rem auto; padding: 1.5rem; font-family: sans-serif; line-height: 1.6;">
-        <h1>Bingo Game - Popular Indian 1 to 25 Bingo</h1>
-        <p><strong>Author:</strong> Sandeep Biswal G</p>
-        <p>Welcome to the official guide and game portal for <strong>Bingo Game - Popular Indian 1 to 25 Bingo (ବିଙ୍ଗୋ)</strong>. Arrange numbers 1 to 25 on a 5x5 board, call numbers in real-time WebRTC rooms (SBXXXX), use Smart Play or Secret Mode, and complete 5 lines (B-I-N-G-O) to win.</p>
-        <p><a href="https://desibingo.netlify.app/">Play Live at DesiBingo (desibingo.netlify.app)</a> | <a href="https://imsbg.github.io/bingo/">Official Blog (imsbg.github.io/bingo)</a></p>
-      </article>
-    </noscript>
+    <!-- ============================================================================
+         PURE HTML + CSS + VANILLA JS BLOG VIEW FOR GITHUB PAGES (imsbg.github.io/bingo/)
+         Works 100% natively without TypeScript or any build step!
+         ============================================================================ -->
+    <div id="github-seo-blog-static">
+      <header class="sb-blog-header">
+        <div class="sb-blog-header-inner">
+          <a href="https://imsbg.github.io/bingo/" class="sb-brand">
+            <div class="sb-logo-box" aria-hidden="true">
+              <span style="background: #ffffff; color: #4338ca">B</span>
+              <span style="background: #fde047">I</span>
+              <span style="background: #6ee7b7">N</span>
+              <span style="background: #fda4af">G</span>
+            </div>
+            <div style="min-width: 0">
+              <div class="sb-brand-title">
+                <span class="sb-lang-or">ବିଙ୍ଗୋ ୧–୨୫ ବ୍ଲଗ୍ (Bingo Blog)</span>
+                <span class="sb-lang-en">Bingo 1–25 Official Blog</span>
+              </div>
+              <div class="sb-brand-sub">
+                <span class="sb-lang-or">ଲେଖକ: Sandeep Biswal G • imsbg.github.io/bingo</span>
+                <span class="sb-lang-en">By Sandeep Biswal G • imsbg.github.io/bingo</span>
+              </div>
+            </div>
+          </a>
+
+          <div class="sb-header-actions">
+            <button
+              type="button"
+              id="blog-lang-toggle-btn"
+              class="sb-btn-outline"
+              onclick="window.toggleSbBlogLang()"
+              title="Switch Language (Odia / English)"
+            >
+              <span class="sb-lang-or">🌐 English</span>
+              <span class="sb-lang-en">🌐 ଓଡ଼ିଆ</span>
+            </button>
+
+            <button
+              type="button"
+              id="blog-theme-toggle-btn"
+              class="sb-btn-outline"
+              onclick="window.toggleSbBlogTheme()"
+              title="Toggle Light / Dark Theme"
+              aria-label="Toggle Theme"
+            >
+              <span>🌓</span>
+            </button>
+
+            <a href="https://desibingo.netlify.app/" class="sb-btn-primary">
+              <span>▶</span>
+              <span class="sb-lang-or">ଖେଳନ୍ତୁ (Play Live)</span>
+              <span class="sb-lang-en">Play Bingo Live</span>
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <main class="sb-container">
+        <article itemscope itemtype="https://schema.org/BlogPosting">
+          <meta itemprop="mainEntityOfPage" content="https://imsbg.github.io/bingo/" />
+          <meta itemprop="author" content="Sandeep Biswal G" />
+          <meta itemprop="publisher" content="Sandeep Biswal G" />
+
+          <!-- HERO ARTICLE SECTION -->
+          <section class="sb-card">
+            <div class="sb-badge-row">
+              <span class="sb-badge sb-badge-indigo">
+                <span class="sb-lang-or">📖 ଅଫିସିଆଲ୍ ଗେମ୍ ଗାଇଡ୍ ଏବଂ ଫିଚର୍ ବ୍ଲଗ୍</span>
+                <span class="sb-lang-en">📖 Official Game Guide &amp; Feature Blog</span>
+              </span>
+              <span class="sb-badge sb-badge-emerald">✓ Author: Sandeep Biswal G</span>
+            </div>
+
+            <h1 itemprop="headline" class="sb-h1">
+              Bingo Game - Popular Indian 1 to 25 Bingo
+            </h1>
+
+            <p class="sb-lead sb-lang-or">
+              ଭାରତର ସବୁଠାରୁ ଲୋକପ୍ରିୟ ୧ ରୁ ୨୫ ବିଙ୍ଗୋ (Bingo 1–25) ଖେଳର ସମ୍ପୂର୍ଣ୍ଣ ନିୟମ,
+              <strong>Smart Play Mini-Map</strong>, <strong>Secret Mode</strong>, ୨-ରଙ୍ଗର ଖେଳାଳି
+              ନମ୍ବର, <strong>WebRTC ଅନଲାଇନ୍ ରୁମ୍ (SBXXXX)</strong> ଏବଂ
+              <strong>Spectator Mode</strong> ବିଷୟରେ ଏଠାରେ ପଢ଼ନ୍ତୁ । ଏହି ଖେଳଟି
+              <strong>Sandeep Biswal G</strong> ଙ୍କ ଦ୍ୱାରା ନିର୍ମିତ ଏବଂ ଆପଣ ଏହାକୁ
+              <a href="https://desibingo.netlify.app/" class="sb-link">desibingo.netlify.app</a> ରେ
+              ମାଗଣାରେ ଖେଳିପାରିବେ ।
+            </p>
+
+            <p itemprop="description" class="sb-lead sb-lang-en">
+              Welcome to the official feature guide and strategy blog for
+              <strong>Bingo Game - Popular Indian 1 to 25 Bingo (ବିଙ୍ଗୋ)</strong> created by
+              <strong>Sandeep Biswal G</strong>. Learn how the classic Indian 5×5 school-notebook
+              Bingo game works online with real-time WebRTC rooms (<code>SBXXXX</code>), Smart Play
+              Mini-Map vs. Secret Mode, 2-color player numbers, English voice announcements, and
+              side-by-side Spectator mode.
+            </p>
+
+            <div class="sb-cta-row">
+              <a href="https://desibingo.netlify.app/" class="sb-cta-large">
+                <span>▶</span>
+                <span class="sb-lang-or">DesiBingo ରେ ଲାଇଭ୍ ଖେଳନ୍ତୁ (desibingo.netlify.app)</span>
+                <span class="sb-lang-en">Play Live on DesiBingo (desibingo.netlify.app)</span>
+              </a>
+              <a href="https://desibingo.netlify.app/odia" class="sb-cta-secondary">
+                <span>ଓଡ଼ିଆରେ ଖେଳନ୍ତୁ (/odia)</span>
+              </a>
+              <a href="https://desibingo.netlify.app/en" class="sb-cta-secondary">
+                <span>Play in English (/en)</span>
+              </a>
+            </div>
+
+            <div class="sb-meta-grid">
+              <div>
+                <span class="sb-meta-label">Author</span>
+                <strong>Sandeep Biswal G</strong>
+              </div>
+              <div>
+                <span class="sb-meta-label">Blog Canonical</span>
+                <a href="https://imsbg.github.io/bingo/" class="sb-link" style="word-break: break-all">
+                  https://imsbg.github.io/bingo/
+                </a>
+              </div>
+              <div>
+                <span class="sb-meta-label">Live Game URL</span>
+                <a
+                  href="https://desibingo.netlify.app/"
+                  class="sb-link"
+                  style="word-break: break-all"
+                >
+                  https://desibingo.netlify.app/
+                </a>
+              </div>
+              <div>
+                <span class="sb-meta-label">Supported Modes</span>
+                <strong>WebRTC P2P, Spectator &amp; AI</strong>
+              </div>
+            </div>
+          </section>
+
+          <!-- INTERACTIVE 5x5 BOARD & COLOR LEGEND SHOWCASE -->
+          <section class="sb-card">
+            <div class="sb-board-showcase">
+              <div>
+                <h2 class="sb-h2">
+                  <span class="sb-lang-or">
+                    ସବୁଜ ବକ୍ସ, ଲାଲ୍ ବକ୍ସ, ୨-ରଙ୍ଗର ନମ୍ବର ଏବଂ ହଳଦିଆ ରିଙ୍ଗ୍
+                  </span>
+                  <span class="sb-lang-en">
+                    Green &amp; Red Boxes, 2-Color Player Numbers &amp; Yellow Ring
+                  </span>
+                </h2>
+
+                <p class="sb-lang-or" style="font-size: 0.9rem; color: var(--sb-muted); margin: 0">
+                  ଖେଳ ସମୟରେ ଯେତେବେଳେ କୌଣସି ନମ୍ବର ଡକାଯାଏ, ବକ୍ସଟି <strong>ଲାଲ୍ (Red)</strong> ହୋଇଯାଏ
+                  ଏବଂ ସମ୍ପୂର୍ଣ୍ଣ ୫ଟି ଘରର ଲାଇନ୍ ପୂରଣ ହେଲେ ବକ୍ସଟି <strong>ସବୁଜ (Green)</strong> ହୋଇଯାଏ
+                  । ଖେଳାଳି ୧ (P1) ଡାକିଥିବା ନମ୍ବର <strong>ନୀଳ (Blue)</strong> ରଙ୍ଗରେ ଏବଂ ଖେଳାଳି ୨ (P2)
+                  ଡାକିଥିବା ନମ୍ବର <strong>କମଳା (Orange)</strong> ରଙ୍ଗରେ ଦେଖାଯାଏ । ସବୁଠାରୁ ଶେଷରେ
+                  ଡକାଯାଇଥିବା ନମ୍ବର ଚାରିପାଶରେ ହଳଦିଆ ରିଙ୍ଗ୍ ଦେଖାଯାଏ ।
+                </p>
+
+                <p class="sb-lang-en" style="font-size: 0.9rem; color: var(--sb-muted); margin: 0">
+                  Every cell on the 5×5 board gives clear visual feedback: called numbers turn
+                  <strong>Red</strong>, completed 5-cell lines turn <strong>Green</strong>, Player
+                  1’s called numbers appear in <strong>Blue</strong>, Player 2’s called numbers
+                  appear in <strong>Orange</strong>, and the last called number is highlighted with
+                  a bright <strong>Yellow Ring</strong>.
+                </p>
+
+                <div class="sb-legend-grid">
+                  <div class="sb-legend-item">
+                    <span
+                      style="
+                        width: 34px;
+                        height: 34px;
+                        border-radius: 10px;
+                        background: #059669;
+                        color: #fff;
+                        font-weight: 900;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                      "
+                      >7</span
+                    >
+                    <div>
+                      <strong style="display: block">
+                        <span class="sb-lang-or">ସବୁଜ ବକ୍ସ (Green Box)</span>
+                        <span class="sb-lang-en">Green Box (Completed Line)</span>
+                      </strong>
+                      <span style="color: var(--sb-muted); font-size: 0.72rem">
+                        <span class="sb-lang-or">ପୂରଣ ହୋଇଥିବା B-I-N-G-O ଲାଇନର ନମ୍ବର ।</span>
+                        <span class="sb-lang-en">Part of a completed 5-cell B-I-N-G-O line.</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="sb-legend-item">
+                    <span
+                      style="
+                        width: 34px;
+                        height: 34px;
+                        border-radius: 10px;
+                        background: #e11d48;
+                        color: #fff;
+                        font-weight: 900;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                      "
+                      >15</span
+                    >
+                    <div>
+                      <strong style="display: block">
+                        <span class="sb-lang-or">ଲାଲ୍ ବକ୍ସ (Red Box)</span>
+                        <span class="sb-lang-en">Red Box (Called Number)</span>
+                      </strong>
+                      <span style="color: var(--sb-muted); font-size: 0.72rem">
+                        <span class="sb-lang-or">ଡକାଯାଇଥିବା ନମ୍ବର (ଲାଇନ୍ ବାକି ଅଛି) ।</span>
+                        <span class="sb-lang-en">Called number not yet in a full line.</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="sb-legend-item">
+                    <span class="sb-num-pill p1" style="flex-shrink: 0">P1 • P2</span>
+                    <div>
+                      <strong style="display: block">
+                        <span class="sb-lang-or">୨-ରଙ୍ଗର ଖେଳାଳି ନମ୍ବର</span>
+                        <span class="sb-lang-en">2-Color Player Numbers</span>
+                      </strong>
+                      <span style="color: var(--sb-muted); font-size: 0.72rem">
+                        <span class="sb-lang-or">P1 ପାଇଁ ନୀଳ ଏବଂ P2 ପାଇଁ କମଳା ନମ୍ବର ।</span>
+                        <span class="sb-lang-en">Blue for Player 1, Orange for Player 2.</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="sb-legend-item">
+                    <span
+                      style="
+                        width: 34px;
+                        height: 34px;
+                        border-radius: 10px;
+                        background: #059669;
+                        box-shadow: 0 0 0 3px #facc15;
+                        color: #fff;
+                        font-weight: 900;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                      "
+                      >12</span
+                    >
+                    <div>
+                      <strong style="display: block">
+                        <span class="sb-lang-or">ହଳଦିଆ ରିଙ୍ଗ୍ (Last Called)</span>
+                        <span class="sb-lang-en">Yellow Ring (Last Called)</span>
+                      </strong>
+                      <span style="color: var(--sb-muted); font-size: 0.72rem">
+                        <span class="sb-lang-or">
+                          ଶେଷ ଡକାଯାଇଥିବା ନମ୍ବର ଚାରିପାଶରେ ହଳଦିଆ ରିଙ୍ଗ୍ ଦେଖାଯାଏ ।
+                        </span>
+                        <span class="sb-lang-en">Highlights the most recently called number.</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Interactive Pure-JS Sample Board -->
+              <div class="sb-demo-card">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    font-size: 0.75rem;
+                    font-weight: 800;
+                  "
+                >
+                  <span>
+                    <span class="sb-lang-or">ଲାଇଭ୍ ବୋର୍ଡ ଉଦାହରଣ (କ୍ଲିକ୍ କରନ୍ତୁ)</span>
+                    <span class="sb-lang-en">Interactive Sample (Tap a Cell)</span>
+                  </span>
+                  <span style="font-family: 'JetBrains Mono', monospace; color: var(--sb-emerald)"
+                    >B • I • N • G • O</span
+                  >
+                </div>
+
+                <div class="sb-demo-grid">
+                  <div class="sb-demo-cell is-green" onclick="window.demoCallCell(this, 7)">
+                    <span class="sb-num-pill p1">7</span>
+                  </div>
+                  <div class="sb-demo-cell is-green" onclick="window.demoCallCell(this, 19)">
+                    <span class="sb-num-pill p2">19</span>
+                  </div>
+                  <div class="sb-demo-cell is-green" onclick="window.demoCallCell(this, 3)">
+                    <span class="sb-num-pill p1">3</span>
+                  </div>
+                  <div class="sb-demo-cell is-green" onclick="window.demoCallCell(this, 24)">
+                    <span class="sb-num-pill p2">24</span>
+                  </div>
+                  <div
+                    class="sb-demo-cell is-green is-last"
+                    onclick="window.demoCallCell(this, 12)"
+                  >
+                    <span class="sb-num-pill p1">12</span>
+                  </div>
+
+                  <div class="sb-demo-cell is-red" onclick="window.demoCallCell(this, 15)">
+                    <span class="sb-num-pill p2">15</span>
+                  </div>
+                  <div class="sb-demo-cell" onclick="window.demoCallCell(this, 1)">1</div>
+                  <div class="sb-demo-cell is-red" onclick="window.demoCallCell(this, 22)">
+                    <span class="sb-num-pill p1">22</span>
+                  </div>
+                  <div class="sb-demo-cell" onclick="window.demoCallCell(this, 9)">9</div>
+                  <div class="sb-demo-cell" onclick="window.demoCallCell(this, 18)">18</div>
+
+                  <div class="sb-demo-cell" onclick="window.demoCallCell(this, 5)">5</div>
+                  <div class="sb-demo-cell is-red" onclick="window.demoCallCell(this, 14)">
+                    <span class="sb-num-pill p2">14</span>
+                  </div>
+                  <div class="sb-demo-cell" onclick="window.demoCallCell(this, 25)">25</div>
+                  <div class="sb-demo-cell" onclick="window.demoCallCell(this, 11)">11</div>
+                  <div class="sb-demo-cell" onclick="window.demoCallCell(this, 2)">2</div>
+                </div>
+
+                <div style="text-align: center; font-size: 0.72rem; color: var(--sb-muted)">
+                  <span class="sb-lang-or">
+                    ଉପର ନମ୍ବରରେ କ୍ଲିକ୍ କଲେ ଇଂରାଜୀ ଭଏସ୍ ଏବଂ ହଳଦିଆ ରିଙ୍ଗ୍ ଦେଖିପାରିବେ ।
+                  </span>
+                  <span class="sb-lang-en">
+                    Click any number above to test English voice callout &amp; Yellow Ring!
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 4 FEATURE CARDS -->
+          <div class="sb-two-col">
+            <section class="sb-feature-card">
+              <h2 class="sb-h2">
+                <span class="sb-lang-or">୧. ୧ ରୁ ୨୫ ବିଙ୍ଗୋ ଖେଳର ନିୟମ (How to Play)</span>
+                <span class="sb-lang-en">1. How to Play Indian 1 to 25 Bingo Online</span>
+              </h2>
+              <ul class="sb-lang-or">
+                <li>
+                  ପ୍ରତ୍ୟେକ ଖେଳାଳିଙ୍କୁ ୫×୫ ବୋର୍ଡରେ ୧ ରୁ ୨୫ ପର୍ଯ୍ୟନ୍ତ ନମ୍ବର ସଜାଇବାକୁ ମିଳେ । ଆପଣ
+                  <strong>Auto Shuffle</strong> କିମ୍ବା <strong>Fill Manually (1→25)</strong> ବ୍ୟବହାର
+                  କରି ନିଜ ପସନ୍ଦରେ ନମ୍ବର ରଖିପାରିବେ ।
+                </li>
+                <li>
+                  ଦୁଇ ଖେଳାଳି ପାଳି କରି ଗୋଟିଏ ଲେଖାଏଁ ନମ୍ବର ଡାକନ୍ତି ଏବଂ ସେହି ନମ୍ବରଟି ଉଭୟ ଖେଳାଳିଙ୍କ
+                  ବୋର୍ଡରେ କଟିଯାଏ ।
+                </li>
+                <li>
+                  ଗୋଟିଏ ଧାଡ଼ି (Horizontal, Vertical କିମ୍ବା Diagonal) ର ୫ଟି ନମ୍ବର କଟିଗଲେ ଗୋଟିଏ ଅକ୍ଷର
+                  (B → I → N → G → O) ପୂରଣ ହୁଏ ।
+                </li>
+                <li>ଯିଏ ପ୍ରଥମେ ୫ଟି ଲାଇନ୍ (B-I-N-G-O) ସମ୍ପୂର୍ଣ୍ଣ କରେ, ସେ ବିଜୟୀ ହୁଏ ।</li>
+              </ul>
+              <ul class="sb-lang-en">
+                <li>
+                  Each player arranges numbers <strong>1 to 25</strong> on a 5×5 grid using
+                  <strong>Auto Shuffle</strong> or <strong>Fill Manually (1→25)</strong>.
+                </li>
+                <li>
+                  Players take turns calling one uncalled number, which is crossed out on both
+                  players’ boards simultaneously.
+                </li>
+                <li>
+                  Completing any 5-cell horizontal, vertical, or diagonal line unlocks one letter of
+                  <strong>B - I - N - G - O</strong>.
+                </li>
+                <li>
+                  The first player to complete <strong>5 full lines (B-I-N-G-O)</strong> wins the
+                  match!
+                </li>
+              </ul>
+            </section>
+
+            <section class="sb-feature-card">
+              <h2 class="sb-h2">
+                <span class="sb-lang-or">୨. Smart Play ON ବନାମ Secret Mode OFF</span>
+                <span class="sb-lang-en">2. Smart Play Mode ON vs. Secret Mode OFF</span>
+              </h2>
+              <ul class="sb-lang-or">
+                <li>
+                  <strong>Secret Mode (Smart Play OFF - ଡିଫଲ୍ଟ):</strong> ଖେଳ ଚାଲିଥିବା ସମୟରେ
+                  ପ୍ରତିପକ୍ଷଙ୍କ ବୋର୍ଡ ଏବଂ B-I-N-G-O ଲାଇନ୍ ସମ୍ପୂର୍ଣ୍ଣ ଗୋପନ ରହେ । ଖେଳ ଶେଷ ହେବା ପରେ ଉଭୟ
+                  ଖେଳାଳିଙ୍କ ବୋର୍ଡ ପାଖାପାଖି ଦେଖାଯାଏ ।
+                </li>
+                <li>
+                  <strong>Smart Play Mode (Smart Play ON):</strong> ରୁମ୍ ତିଆରି କରିବା ସମୟରେ Smart Play
+                  ଚେକ୍-ବକ୍ସ ଅନ୍ କଲେ, ପ୍ରତିପକ୍ଷଙ୍କ ୫×୫ ମିନି-ମ୍ୟାପ୍ (ବିନା ନମ୍ବରରେ କେବଳ ଲାଲ୍ ଓ ସବୁଜ
+                  ବକ୍ସ) ଏବଂ B-I-N-G-O ଅକ୍ଷରର ସ୍ଥିତି ଲାଇଭ୍ ଦେଖାଯାଏ ।
+                </li>
+              </ul>
+              <ul class="sb-lang-en">
+                <li>
+                  <strong>Secret Mode (Smart Play OFF — Default):</strong> Your opponent’s board and
+                  B-I-N-G-O letter progress stay completely secret during the match. Once someone
+                  wins, both boards are revealed side-by-side!
+                </li>
+                <li>
+                  <strong>Smart Play Mode (Smart Play ON):</strong> Shows a live 5×5 Opponent
+                  Mini-Map without numbers (only Red called cells &amp; Green line cells) plus live
+                  B-I-N-G-O letter progress.
+                </li>
+              </ul>
+            </section>
+
+            <section class="sb-feature-card">
+              <h2 class="sb-h2">
+                <span class="sb-lang-or">୩. WebRTC ଅନଲାଇନ୍ ରୁମ୍ ଏବଂ ଦର୍ଶକ ମୋଡ୍</span>
+                <span class="sb-lang-en">3. WebRTC Rooms &amp; Side-by-Side Spectator View</span>
+              </h2>
+              <ul class="sb-lang-or">
+                <li>
+                  କୌଣସି ଲଗଇନ୍ ବିନା <strong>SBXXXX</strong> ରୁମ୍ କୋଡ୍ ତିଆରି କରି ସାଙ୍ଗମାନଙ୍କ ସହିତ
+                  ମୋବାଇଲ୍, ଟାବଲେଟ୍ କିମ୍ବା କମ୍ପ୍ୟୁଟରରେ ଖେଳନ୍ତୁ ।
+                </li>
+                <li>
+                  <strong>Spectator Mode (ଦର୍ଶକ):</strong> ଦର୍ଶକମାନେ ଉଭୟ ଖେଳାଳିଙ୍କ ବୋର୍ଡ ପାଖାପାଖି
+                  (ବାମ ପଟେ Player 1 ଏବଂ ଡାହାଣ ପଟେ Player 2) ଦେଖିପାରିବେ ଏବଂ ଡାହାଣ ପଟେ ଥିବା ଭର୍ଟିକାଲ୍
+                  ଇମୋଜି ପ୍ୟାନେଲରୁ ରିଆକ୍ସନ୍ ପଠାଇପାରିବେ । Smart Play ବନ୍ଦ ଥିଲେ ଦର୍ଶକମାନଙ୍କୁ ବୋର୍ଡ
+                  ସୂଚନା ସେୟାର ନକରିବା ପାଇଁ ସତର୍କ ସୂଚନା ଦେଖାଯାଏ ।
+                </li>
+              </ul>
+              <ul class="sb-lang-en">
+                <li>
+                  Create instant peer-to-peer WebRTC rooms (<code>SBXXXX</code>) and share via
+                  WhatsApp or QR code across mobile, tablet, and PC.
+                </li>
+                <li>
+                  <strong>Side-by-Side Spectator Mode:</strong> Watch Player 1 (left) and Player 2
+                  (right) boards live, send emoji cheers from the vertical right-side reaction
+                  panel, with an anti-cheat warning when Smart Play is OFF.
+                </li>
+              </ul>
+            </section>
+
+            <section class="sb-feature-card">
+              <h2 class="sb-h2">
+                <span class="sb-lang-or">୪. ଇଂରାଜୀ ଭଏସ୍ ଘୋଷଣା ଏବଂ ସ୍ମାର୍ଟ କମ୍ପ୍ୟୁଟର AI</span>
+                <span class="sb-lang-en">4. English Voice Callouts &amp; Smart Computer AI</span>
+              </h2>
+              <ul class="sb-lang-or">
+                <li>
+                  <strong>Spoken English Voice Callouts:</strong> ଯେତେବେଳେ କୌଣସି ଖେଳାଳି ଏକ ନମ୍ବରରେ
+                  କ୍ଲିକ୍ କରନ୍ତି, ଉଭୟ ଓଡ଼ିଆ ଏବଂ ଇଂରାଜୀ ମୋଡ୍ ରେ ସେହି ନମ୍ବରଟି ସ୍ପଷ୍ଟ ଇଂରାଜୀ ସ୍ୱରରେ
+                  ଶୁଣାଯାଏ ।
+                </li>
+                <li>
+                  <strong>Play vs Computer AI:</strong> ସାଙ୍ଗ ଅନଲାଇନ୍ ନଥିଲେ ଆପଣ ଆମର ସ୍ମାର୍ଟ
+                  କମ୍ପ୍ୟୁଟର AI ସହିତ ଏକାକୀ ଖେଳି ଅଭ୍ୟାସ କରିପାରିବେ ।
+                </li>
+              </ul>
+              <ul class="sb-lang-en">
+                <li>
+                  <strong>Spoken English Voice Callouts:</strong> Every called number (1 to 25) is
+                  spoken aloud in clear English in both Odia and English UI modes.
+                </li>
+                <li>
+                  <strong>Solo vs. Smart Computer AI:</strong> Practice anytime against a tactical
+                  AI bot that evaluates multi-line intersections.
+                </li>
+              </ul>
+            </section>
+          </div>
+
+          <!-- COMPARISON TABLE -->
+          <section class="sb-card">
+            <h2 class="sb-h2">
+              <span class="sb-lang-or">Smart Play Mode ବନାମ Secret Mode ତୁଳନା</span>
+              <span class="sb-lang-en"
+                >Feature Comparison: Secret Mode (Default) vs. Smart Play Mode</span
+              >
+            </h2>
+            <div class="sb-table-wrap">
+              <table class="sb-table">
+                <thead>
+                  <tr>
+                    <th>
+                      <span class="sb-lang-or">ବୈଶିଷ୍ଟ୍ୟ (Feature)</span>
+                      <span class="sb-lang-en">Feature</span>
+                    </th>
+                    <th>Secret Mode (Smart Play OFF)</th>
+                    <th>Smart Play Mode (ON)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong class="sb-lang-or">ପ୍ରତିପକ୍ଷଙ୍କ ୫×୫ ମିନି-ମ୍ୟାପ୍</strong>
+                      <strong class="sb-lang-en">Opponent 5×5 Mini-Map</strong>
+                    </td>
+                    <td>
+                      <span class="sb-lang-or">ଖେଳ ସମୟରେ ଗୋପନ ରହେ ।</span>
+                      <span class="sb-lang-en">Hidden during active match.</span>
+                    </td>
+                    <td>
+                      <span class="sb-lang-or"
+                        >ବିନା ନମ୍ବରରେ ଲାଲ୍ ଓ ସବୁଜ ବକ୍ସ ସହିତ ଲାଇଭ୍ ଦେଖାଯାଏ ।</span
+                      >
+                      <span class="sb-lang-en">Shown live without numbers (Red &amp; Green).</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong class="sb-lang-or">ପ୍ରତିପକ୍ଷଙ୍କ B-I-N-G-O ଅକ୍ଷର</strong>
+                      <strong class="sb-lang-en">Opponent B-I-N-G-O Letters</strong>
+                    </td>
+                    <td>
+                      <span class="sb-lang-or">ଖେଳ ସମୟରେ ଲୁଚି ରହେ ।</span>
+                      <span class="sb-lang-en">Kept secret until a player wins.</span>
+                    </td>
+                    <td>
+                      <span class="sb-lang-or">B, I, N, G, O କେଉଁଟି ପୂରଣ ହେଲା ଲାଇଭ୍ ଦେଖାଯାଏ ।</span>
+                      <span class="sb-lang-en">Live letter status visible to both players.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong class="sb-lang-or">ଖେଳ ଶେଷ ହେବା ପରେ ବୋର୍ଡ</strong>
+                      <strong class="sb-lang-en">Post-Win Board Reveal</strong>
+                    </td>
+                    <td>
+                      <span class="sb-lang-or"
+                        >ବିଜୟ ପରେ ଉଭୟ ଖେଳାଳିଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ବୋର୍ଡ ଦେଖାଯାଏ ।</span
+                      >
+                      <span class="sb-lang-en">Both full boards revealed side-by-side!</span>
+                    </td>
+                    <td>
+                      <span class="sb-lang-or"
+                        >ବିଜୟ ପରେ ଉଭୟ ଖେଳାଳିଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ବୋର୍ଡ ଦେଖାଯାଏ ।</span
+                      >
+                      <span class="sb-lang-en">Both full boards revealed side-by-side!</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- FAQ SECTION -->
+          <section class="sb-card">
+            <h2 class="sb-h2">
+              <span class="sb-lang-or">ବାରମ୍ବାର ପଚରାଯାଉଥିବା ପ୍ରଶ୍ନ (FAQ)</span>
+              <span class="sb-lang-en">Frequently Asked Questions (FAQ)</span>
+            </h2>
+            <div class="sb-faq-grid">
+              <div class="sb-faq-item">
+                <h3>
+                  <span class="sb-lang-or">୧. ଏହି ୧ ରୁ ୨୫ ବିଙ୍ଗୋ ଖେଳ କେଉଁଠାରେ ଖେଳିପାରିବି?</span>
+                  <span class="sb-lang-en"
+                    >1. Where can I play the Indian 1 to 25 Bingo Game live?</span
+                  >
+                </h3>
+                <p class="sb-lang-or">
+                  ଆପଣ
+                  <a href="https://desibingo.netlify.app/" class="sb-link"
+                    >https://desibingo.netlify.app/</a
+                  >
+                  କୁ ଯାଇ ମାଗଣାରେ ଅନଲାଇନ୍ ମଲ୍ଟିପ୍ଲେୟାର କିମ୍ବା କମ୍ପ୍ୟୁଟର ସହିତ ଖେଳିପାରିବେ ।
+                </p>
+                <p class="sb-lang-en">
+                  You can play the full interactive game right now at
+                  <a href="https://desibingo.netlify.app/" class="sb-link"
+                    >https://desibingo.netlify.app/</a
+                  >
+                  for free on mobile, tablet, or PC.
+                </p>
+              </div>
+
+              <div class="sb-faq-item">
+                <h3>
+                  <span class="sb-lang-or">୨. ଶେଷ ଡକାଯାଇଥିବା ନମ୍ବର କିପରି ଚିହ୍ନିବି?</span>
+                  <span class="sb-lang-en"
+                    >2. How do I know which number my opponent called last?</span
+                  >
+                </h3>
+                <p class="sb-lang-or">
+                  ସବୁଠାରୁ ଶେଷରେ ଡକାଯାଇଥିବା ନମ୍ବର ଚାରିପାଶରେ ହଳଦିଆ ରିଙ୍ଗ୍ ଦେଖାଯାଏ ଏବଂ ତାହା ଉପରେ LAST
+                  ବ୍ୟାଜ୍ ଥାଏ ।
+                </p>
+                <p class="sb-lang-en">
+                  The last called number glows with a bright Yellow Ring and a LAST badge on the
+                  5×5 board.
+                </p>
+              </div>
+
+              <div class="sb-faq-item">
+                <h3>
+                  <span class="sb-lang-or">୩. ଏହି ଖେଳର ନିର୍ମାତା (Author) କିଏ?</span>
+                  <span class="sb-lang-en">3. Who is the author and developer of this game?</span>
+                </h3>
+                <p class="sb-lang-or">
+                  ଏହି ବିଙ୍ଗୋ ଖେଳ ଏବଂ ଅଫିସିଆଲ୍ ବ୍ଲଗ୍ <strong>Sandeep Biswal G</strong> ଙ୍କ ଦ୍ୱାରା
+                  ଡିଜାଇନ୍ ଏବଂ ବିକଶିତ କରାଯାଇଛି ।
+                </p>
+                <p class="sb-lang-en">
+                  Bingo Game - Popular Indian 1 to 25 Bingo is designed and developed by
+                  <strong>Sandeep Biswal G</strong>.
+                </p>
+              </div>
+
+              <div class="sb-faq-item">
+                <h3>
+                  <span class="sb-lang-or">୪. ମୁଁ ଛକି ଶୂନ (Tic Tac Toe) ମଧ୍ୟ ଖେଳିପାରିବି କି?</span>
+                  <span class="sb-lang-en"
+                    >4. Can I also play Odia Chhaki Suna (Tic Tac Toe) online?</span
+                  >
+                </h3>
+                <p class="sb-lang-or">
+                  ହଁ! ଛକି ଶୂନ ଖେଳିବା ପାଇଁ
+                  <a
+                    href="https://chhakisuna.netlify.app/odia"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="sb-link"
+                    >chhakisuna.netlify.app/odia</a
+                  >
+                  କୁ ଯାଆନ୍ତୁ ।
+                </p>
+                <p class="sb-lang-en">
+                  Yes! Play Chhaki Suna (Tic Tac Toe) online at
+                  <a
+                    href="https://chhakisuna.netlify.app/en"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="sb-link"
+                    >chhakisuna.netlify.app/en</a
+                  >
+                  or
+                  <a
+                    href="https://chhakisuna.netlify.app/odia"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="sb-link"
+                    >/odia</a
+                  >.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- AUTHOR FOOTER -->
+          <footer
+            class="sb-card"
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: space-between;
+              gap: 1rem;
+              margin-bottom: 0;
+            "
+          >
+            <div>
+              <div class="sb-meta-label">Author &amp; Developer</div>
+              <div style="font-size: 1.2rem; font-weight: 900; margin: 0.15rem 0">
+                Sandeep Biswal G
+              </div>
+              <div style="font-size: 0.82rem; color: var(--sb-muted)">
+                <a href="https://desibingo.netlify.app/" class="sb-link"
+                  >Play Bingo (desibingo.netlify.app)</a
+                >
+                •
+                <a
+                  href="https://chhakisuna.netlify.app/odia"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="sb-link"
+                  >Chhaki Suna Khelantu (chhakisuna.netlify.app)</a
+                >
+                •
+                <a
+                  href="https://play.google.com/store/apps/dev?id=6501689567504406715"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="sb-link"
+                  >Google Play Store</a
+                >
+              </div>
+            </div>
+
+            <a href="https://desibingo.netlify.app/" class="sb-cta-large">
+              <span>▶</span>
+              <span class="sb-lang-or">ବର୍ତ୍ତମାନ ବିଙ୍ଗୋ ଖେଳନ୍ତୁ</span>
+              <span class="sb-lang-en">Launch Game Now</span>
+            </a>
+          </footer>
+        </article>
+      </main>
+    </div>
+
+    <!-- ============================================================================
+         REACT + WEBRTC GAME ROOT FOR NETLIFY (desibingo.netlify.app)
+         Automatically hidden on GitHub Pages (imsbg.github.io/bingo/)
+         ============================================================================ -->
+    <div id="root" style="display: none"></div>
+
+    <script>
+      (function () {
+        var staticBlogEl = document.getElementById('github-seo-blog-static');
+        var gameRootEl = document.getElementById('root');
+        if (!window.__IS_GITHUB_BLOG_VIEW__) {
+          if (staticBlogEl) staticBlogEl.style.display = 'none';
+          if (gameRootEl) gameRootEl.style.display = 'block';
+        } else {
+          if (staticBlogEl) staticBlogEl.style.display = 'block';
+          if (gameRootEl) gameRootEl.style.display = 'none';
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

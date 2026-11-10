@@ -25,5 +25,16 @@ try {
   // Ignore if non-configurable
 }
 
-createRoot(document.getElementById('root')!).render(<App />);
-
+// Only mount the React Game UI when not on the pure HTML/CSS/JS GitHub Pages Blog view
+const isStaticGithubBlog = Boolean(
+  (window as unknown as { __IS_GITHUB_BLOG_VIEW__?: boolean }).__IS_GITHUB_BLOG_VIEW__
+);
+const rootEl = document.getElementById('root');
+if (rootEl && !isStaticGithubBlog) {
+  rootEl.style.display = 'block';
+  const staticBlogEl = document.getElementById('github-seo-blog-static');
+  if (staticBlogEl) {
+    staticBlogEl.style.display = 'none';
+  }
+  createRoot(rootEl).render(<App />);
+}
